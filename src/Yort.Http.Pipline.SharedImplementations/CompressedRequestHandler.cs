@@ -13,15 +13,30 @@ namespace Yort.Http.Pipeline
 	/// </summary>
 	public sealed class CompressedRequestHandler : System.Net.Http.DelegatingHandler
 	{
+		#region Fields
+
+		private IRequestCondition _RequestCondition;
+
+		#endregion
 
 		#region Constructors
+
+		/// <summary>
+		/// Partial constructor.
+		/// </summary>
+		/// <param name="innerHandler">The next handler in the pipeline to pass requests through.</param>
+		public CompressedRequestHandler(System.Net.Http.HttpMessageHandler innerHandler) : this(innerHandler, null)
+		{
+		}
 
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
 		/// <param name="innerHandler">The next handler in the pipeline to pass requests through.</param>
-		public CompressedRequestHandler(System.Net.Http.HttpMessageHandler innerHandler) : base(innerHandler)
+		/// <param name="requestCondition">A <see cref="IRequestCondition"/> that controls whether any individual request is compressed or not. If null, all requests are compressed.</param>
+		public CompressedRequestHandler(System.Net.Http.HttpMessageHandler innerHandler, IRequestCondition requestCondition) : base(innerHandler)
 		{
+			_RequestCondition = requestCondition;
 		}
 
 		#endregion
@@ -83,11 +98,12 @@ namespace Yort.Http.Pipeline
 			}
 		}
 
-		private static bool ShouldCompress(HttpRequestMessage request)
+		private bool ShouldCompress(HttpRequestMessage request)
 		{
 			return request.Content != null 
 				&& !(request.Content?.Headers?.ContentEncoding?.Contains("gzip") ?? false)
-				&& !(request.Content?.Headers?.ContentEncoding?.Contains("deflate") ?? false);
+				&& !(request.Content?.Headers?.ContentEncoding?.Contains("deflate") ?? false)
+				&& (_RequestCondition?.ShouldProcess(request) ?? true);
 		}
 
 		#endregion

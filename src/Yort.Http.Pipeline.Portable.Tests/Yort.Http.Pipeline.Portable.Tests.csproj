@@ -81,6 +81,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OrRequestConditionTests.cs" />
+    <Compile Include="AndRequestConditionTests.cs" />
     <Compile Include="RequestCompressingHandlerTests.cs" />
     <Compile Include="InsecureRedirectionHandlerTests.cs" />
     <Compile Include="MockMessageHandlerTests.cs" />

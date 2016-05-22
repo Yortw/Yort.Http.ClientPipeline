@@ -9,13 +9,19 @@
     <Import_RootNamespace>Yort.Http.Pipeline</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)OrRequestCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AndRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RequestContentTypeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AuthorityRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompressedRequestHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpHeaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpStatusCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InsecureRedirectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IRedirectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MockMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedirectCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryHandlerBase.cs" />

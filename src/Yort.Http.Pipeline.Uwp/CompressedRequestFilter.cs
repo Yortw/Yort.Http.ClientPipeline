@@ -21,18 +21,31 @@ namespace Yort.Http.Pipeline
 		#region Fields
 
 		private IHttpFilter _InnerFilter;
-		
+		private IWebHttpRequestCondition _RequestCondition;
+
 		#endregion
 
 		#region Constructors
 
 		/// <summary>
+		/// Partial constructor.
+		/// </summary>
+		/// <param name="innerFilter">The next handler in the pipeline to pass requests through.</param>
+		public CompressedRequestFilter(IHttpFilter innerFilter)  : this(innerFilter, null)
+		{
+		}
+
+		/// <summary>
 		/// Full constructor.
 		/// </summary>
 		/// <param name="innerFilter">The next handler in the pipeline to pass requests through.</param>
-		public CompressedRequestFilter(IHttpFilter innerFilter) 
+		/// <param name="requestCondition">A <see cref="IWebHttpRequestCondition"/> that controls whether any individual request is compressed or not. If null, all requests are compressed.</param>
+		public CompressedRequestFilter(IHttpFilter innerFilter, IWebHttpRequestCondition requestCondition)
 		{
+			if (innerFilter == null) throw new ArgumentNullException(nameof(innerFilter));
+
 			_InnerFilter = innerFilter;
+			_RequestCondition = requestCondition;
 		}
 
 		#endregion
@@ -96,11 +109,12 @@ namespace Yort.Http.Pipeline
 			}
 		}
 
-		private static bool ShouldCompress(HttpRequestMessage request)
+		private bool ShouldCompress(HttpRequestMessage request)
 		{
-			return request.Content != null 
+			return request.Content != null
 				&& !(request.Content?.Headers?.ContentEncoding?.Contains(new Windows.Web.Http.Headers.HttpContentCodingHeaderValue("gzip")) ?? false)
-				&& !(request.Content?.Headers?.ContentEncoding?.Contains(new Windows.Web.Http.Headers.HttpContentCodingHeaderValue("deflate")) ?? false);
+				&& !(request.Content?.Headers?.ContentEncoding?.Contains(new Windows.Web.Http.Headers.HttpContentCodingHeaderValue("deflate")) ?? false)
+				&& (_RequestCondition?.ShouldProcess(request) ?? true); 
 		}
 
 		#endregion

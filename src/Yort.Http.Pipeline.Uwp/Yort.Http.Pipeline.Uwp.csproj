@@ -131,7 +131,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndWebRequestCondition.cs" />
+    <Compile Include="AuthorityWebHttpRequestCondition.cs" />
     <Compile Include="CompressedRequestFilter.cs" />
+    <Compile Include="IWebHttpRequestCondition.cs" />
+    <Compile Include="OrRequestCondition.cs" />
+    <Compile Include="WebRequestContentTypeCondition.cs" />
     <Compile Include="WebHttpHeaderExtensions.cs" />
     <Compile Include="RetryFilterBase.cs" />
     <Compile Include="TooManyRequestsRetryFilter.cs" />
