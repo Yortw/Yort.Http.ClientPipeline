@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -24,6 +25,9 @@ namespace Yort.Http.Pipeline
 		private IDictionary<string, HttpResponseMessage> _FixedResponses;
 		private IList<MockResponseHandler> _DynamicResponses;
 
+		private readonly IList<HttpRequestMessage> _Requests;
+		private readonly ReadOnlyCollection<HttpRequestMessage> _ReadOnlyRequests;
+
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
@@ -31,6 +35,8 @@ namespace Yort.Http.Pipeline
 		{
 			_FixedResponses = new Dictionary<string, HttpResponseMessage>();
 			_DynamicResponses = new List<MockResponseHandler>();
+			_Requests = new List<HttpRequestMessage>();
+			_ReadOnlyRequests = new ReadOnlyCollection<HttpRequestMessage>(_Requests);
 		}
 
 		/// <summary>
@@ -43,6 +49,25 @@ namespace Yort.Http.Pipeline
 		{
 			get;
 			set;
+		}
+
+		/// <summary>
+		/// Returns a read only collection of requests processed by this handlers <see cref="SendAsync(HttpRequestMessage, CancellationToken)"/> method.
+		/// </summary>
+		public ReadOnlyCollection<HttpRequestMessage> Requests
+		{
+			get
+			{
+				return _ReadOnlyRequests;
+			}
+		}
+
+		/// <summary>
+		/// Removes all requests from the <see cref="Requests"/>, resetting the collection to an empty state.
+		/// </summary>
+		public void ClearRequests()
+		{
+			_Requests.Clear();
 		}
 
 		/// <summary>
@@ -76,9 +101,12 @@ namespace Yort.Http.Pipeline
 		/// <returns></returns>
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
+			var clonedRequest = await CloneRequest(request).ConfigureAwait(false);
+			_Requests.Add(clonedRequest);
+			
 			//If there's a simple fixed response, return it.
 			var key = GetRequestKey(request.Method.Method, request.RequestUri);
-			if (_FixedResponses.ContainsKey(key)) return await CloneResponse(_FixedResponses[key], request);
+			if (_FixedResponses.ContainsKey(key)) return await CloneResponse(_FixedResponses[key], clonedRequest);
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -104,7 +132,7 @@ namespace Yort.Http.Pipeline
 			return httpMethod.ToUpperInvariant() + ":" + requestUri.ToString();
 		}
 
-		private async Task<HttpResponseMessage> CloneResponse(HttpResponseMessage response, HttpRequestMessage request)
+		private static async Task<HttpResponseMessage> CloneResponse(HttpResponseMessage response, HttpRequestMessage request)
 		{
 			if (response == null) return null;
 
@@ -121,6 +149,27 @@ namespace Yort.Http.Pipeline
 			return retVal;
 		}
 
+		private static async Task<HttpRequestMessage> CloneRequest(HttpRequestMessage request)
+		{
+			var retVal = new HttpRequestMessage(request.Method, request.RequestUri);
+			foreach (var header in request.Headers)
+			{
+				retVal.Headers.Add(header.Key, header.Value);
+			}
+
+			if (request.Content != null)
+			{
+				var content = new ByteArrayContent(await request.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+				foreach (var header in request.Content.Headers)
+				{
+					content.Headers.Add(header.Key, header.Value);
+				}
+				retVal.Content = content;
+			}
+
+			return retVal;
+		}
+
 		private static void CopyHeaders(HttpHeaders source, HttpHeaders destination)
 		{
 			foreach (var header in source)
@@ -129,8 +178,14 @@ namespace Yort.Http.Pipeline
 			}
 		}
 		
-		private async Task CopyContent(HttpResponseMessage source, HttpResponseMessage destination)
+		private static async Task CopyContent(HttpResponseMessage source, HttpResponseMessage destination)
 		{
+			if (source.Content == null)
+			{
+				destination.Content = null;
+				return;
+			}
+
 			//If the content is a stream, it may only be readable once, so convert it to a byte
 			//array content to allow for multiple requests.
 			var streamContent = source.Content as System.Net.Http.StreamContent;

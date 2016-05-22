@@ -33,7 +33,7 @@ namespace Yort.Http.Pipeline
 		}
 
 		/// <summary>
-		/// Disposes this instance and all internal resouroces.
+		/// Does nothing but is provided for compatibility with other credential types that may need disposal.
 		/// </summary>
 		public void Dispose()
 		{

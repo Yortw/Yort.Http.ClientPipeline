@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yort.Http.Pipeline
+namespace Yort.Http.Pipeline.OAuth2
 {
 	/// <summary>
 	/// An enum specifying the ways a token or signature can be applied to a request.

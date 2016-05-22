@@ -210,3 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/src/Yort.Http.Pipeline.Uwp.Tests/TestSecrets.cs
+/src/Yort.Http.Pipeline.Portable.Tests/TestSecrets.cs

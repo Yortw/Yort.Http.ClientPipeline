@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9d8e37c9-976d-49b0-9267-768594e44e6b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Yort.Http.Pipeline</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompressedRequestHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpClientExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpHeaderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpStatusCodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InsecureRedirectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IRedirectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockMessageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RedirectCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryHandlerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TooManyRequestsRetryHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceUnavailableRetryHandler.cs" />
+  </ItemGroup>
+</Project>

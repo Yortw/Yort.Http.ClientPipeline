@@ -80,8 +80,9 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <para>Unless overridden this method signs the request by setting providing the token value (and token type as the 'scheme' if <param name="signingMethod"/>  is <see cref="OAuth2HttpRequestSigningMethod.AuthorizationHeader"/>).</para>
 		/// </remarks>
 		/// <param name="request">The <see cref="HttpRequestMessage"/> instance to be signed.</param>
-		/// <exception cref="System.ArgumentNullException">Thrown if the <paramref name="request"/> argument is null.</exception>
-		/// <exception cref="System.NotSupportedException">Thrown if an unknown or unsupported <paramref name="signingMethod"/> value is provided.</exception>
+		/// <exception cref="ArgumentNullException">Thrown if the <paramref name="request"/> argument is null.</exception>
+		/// <exception cref="NotSupportedException">Thrown if an unknown or unsupported <paramref name="signingMethod"/> value is provided.</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "OAuth")]
 		public virtual void SignRequest(HttpRequestMessage request, OAuth2HttpRequestSigningMethod signingMethod)
 		{
 			if (request == null) throw new ArgumentNullException(nameof(request));

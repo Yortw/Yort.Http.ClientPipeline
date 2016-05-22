@@ -8,6 +8,8 @@ namespace Yort.Http.Pipeline.Portable.Tests
 	public class MockMessageHandlerTests
 	{
 		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(MockMessageHandler))]
 		public async Task MockMessageHandler_ReturnsNotFoundForUknownRequest()
 		{
 			var requestUriString = "http://www.mytestdomain.com/";
@@ -21,6 +23,8 @@ namespace Yort.Http.Pipeline.Portable.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(MockMessageHandler))]
 		public async Task MockMessageHandler_ReturnsFixedResponse()
 		{
 			var requestUriString = "http://www.mytestdomain.com/";
