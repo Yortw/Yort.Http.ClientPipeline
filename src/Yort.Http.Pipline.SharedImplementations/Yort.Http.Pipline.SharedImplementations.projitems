@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AndRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaTypes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RequestContentTypeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RequestContentMediaTypeCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuthorityRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompressedRequestHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpClientExtensions.cs" />

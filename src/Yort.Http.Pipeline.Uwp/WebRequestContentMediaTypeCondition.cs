@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Yort.Http.Pipeline
 	/// <remarks>
 	/// <para>Authority names are treated as case sensitive.</para>
 	/// </remarks>
-	public class RequestContentTypeCondition : IRequestCondition
+	public class WebRequestContentMediaTypeCondition : IRequestCondition
 	{
 
 		private System.Collections.Concurrent.ConcurrentDictionary<string, string> _AllowedMediaTypes;
@@ -19,7 +20,7 @@ namespace Yort.Http.Pipeline
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public RequestContentTypeCondition()
+		public WebRequestContentMediaTypeCondition()
 		{
 			_AllowedMediaTypes = new System.Collections.Concurrent.ConcurrentDictionary<string, string>();
 		}
@@ -28,7 +29,7 @@ namespace Yort.Http.Pipeline
 		/// Full constructor.
 		/// </summary>
 		/// <param name="allowedAuthorities">An enumerable of media types that are allowed by this condition.</param>
-		public RequestContentTypeCondition(IEnumerable<string> allowedAuthorities) : this()
+		public WebRequestContentMediaTypeCondition(IEnumerable<string> allowedAuthorities) : this()
 		{
 			if (allowedAuthorities == null) return;
 

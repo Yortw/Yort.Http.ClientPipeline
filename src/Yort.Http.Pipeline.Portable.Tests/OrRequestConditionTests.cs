@@ -11,8 +11,11 @@ namespace Yort.Http.Pipeline.Portable.Tests
 	public class OrRequestConditionTests
 	{
 
+		#region Constructor Tests
+
 		[TestMethod]
 		[TestCategory(nameof(OrRequestCondition))]
+		[TestCategory("Conditions")]
 		[ExpectedException(typeof(System.ArgumentNullException))]
 		public void OrRequestCondition_Constructor_ThrowsWhenChildConditionsNull()
 		{
@@ -21,19 +24,25 @@ namespace Yort.Http.Pipeline.Portable.Tests
 
 		[TestMethod]
 		[TestCategory(nameof(OrRequestCondition))]
+		[TestCategory("Conditions")]
 		public void OrRequestCondition_Constructor_ConstructsOkWithEmptyChildConditions()
 		{
 			var orCondition = new OrRequestCondition(new IRequestCondition[] { });
 		}
 
+		#endregion
+
+		#region ShouldProcess Tests
+
 		[TestMethod]
 		[TestCategory(nameof(OrRequestCondition))]
-		public void OrRequestCondition_Constructor_ReturnsTrueIfAnyChildConditionsPass()
+		[TestCategory("Conditions")]
+		public void OrRequestCondition_ShouldProcess_ReturnsTrueIfAnyChildConditionsPass()
 		{
 			var condition1 = new AuthorityHttpRequestCondition();
 			condition1.AddAuthority("sometestsite");
 
-			var condition2 = new RequestContentTypeCondition();
+			var condition2 = new RequestContentMediaTypeCondition();
 			condition2.AddContentMediaType(MediaTypes.TextPlain);
 
 			var andCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
@@ -46,12 +55,13 @@ namespace Yort.Http.Pipeline.Portable.Tests
 
 		[TestMethod]
 		[TestCategory(nameof(OrRequestCondition))]
-		public void OrRequestCondition_Constructor_ReturnsFalseIfNoChildConditionDoesNotPass()
+		[TestCategory("Conditions")]
+		public void OrRequestCondition_ShouldProcess_ReturnsFalseIfNoChildConditionDoesNotPass()
 		{
 			var condition1 = new AuthorityHttpRequestCondition();
 			condition1.AddAuthority("sometestsite");
 
-			var condition2 = new RequestContentTypeCondition();
+			var condition2 = new RequestContentMediaTypeCondition();
 			condition2.AddContentMediaType(MediaTypes.TextPlain);
 
 			var andCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
@@ -61,6 +71,8 @@ namespace Yort.Http.Pipeline.Portable.Tests
 
 			Assert.IsFalse(andCondition.ShouldProcess(testRequest));
 		}
+
+		#endregion
 
 	}
 }
