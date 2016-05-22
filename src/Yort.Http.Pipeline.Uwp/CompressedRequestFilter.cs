@@ -72,7 +72,7 @@ namespace Yort.Http.Pipeline
 
 		#region Private Methods
 
-		private async Task<IHttpContent> GetCompressedContent(IHttpContent originalContent)
+		private static async Task<IHttpContent> GetCompressedContent(IHttpContent originalContent)
 		{
 			var ms = new System.IO.MemoryStream();
 			try

@@ -118,7 +118,7 @@ namespace Yort.Http.Pipeline
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]
 		public async static Task<HttpResponseMessage> HeadAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
 		{
-			return await HeadAsync(client, new Uri(requestUri), content, System.Threading.CancellationToken.None).ConfigureAwait(false);
+			return await HeadAsync(client, new Uri(requestUri), content, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace Yort.Http.Pipeline
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]
 		public async static Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
 		{
-			return await OptionsAsync(client, new Uri(requestUri), content, System.Threading.CancellationToken.None).ConfigureAwait(false);
+			return await OptionsAsync(client, new Uri(requestUri), content, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
