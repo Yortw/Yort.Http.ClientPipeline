@@ -45,6 +45,11 @@ namespace Yort.Http.Pipeline.OAuth2
 		public OAuth2Exception(string message, Exception inner) : base(message, inner) { }
 
 #if SUPPORTS_SERIALISATION
+		/// <summary>
+		/// Constructor used to deserialise exception.
+		/// </summary>
+		/// <param name="info"></param>
+		/// <param name="context"></param>
 		protected OAuth2Exception(
 		System.Runtime.Serialization.SerializationInfo info,
 		System.Runtime.Serialization.StreamingContext context) : base(info, context)

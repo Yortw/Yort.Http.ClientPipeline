@@ -9,6 +9,18 @@
     <Import_RootNamespace>Yort.Http.Pipeline</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ICredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ICredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\AuthorisationCodeResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Error.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Exception.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2GrantTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2RequestSigningHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2RequestSigningMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Token.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2TokenError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OrRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
@@ -25,6 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)MockMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedirectCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryHandlerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimpleCredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimpleCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TooManyRequestsRetryHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceUnavailableRetryHandler.cs" />
   </ItemGroup>

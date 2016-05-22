@@ -23,7 +23,7 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <remarks>
 		/// <para>See https://tools.ietf.org/html/rfc6749#section-4.4 for details of this authentication flow.</para>
 		/// </remarks>
-		public const string ClientCredentials = "client_credentails";
+		public const string ClientCredentials = "client_credentials";
 		/// <summary>
 		/// Used when requesting an new access token using a previously provided refresh token.
 		/// </summary>

@@ -3,6 +3,8 @@
 	<Words>
 		<Recognized>
 			<Word>Auth</Word>
+			<Word>Authorisation</Word>
+			<Word>OAuth</Word>
 			<Word>Uwp</Word>
 			<Word>Yort</Word>
 		</Recognized>

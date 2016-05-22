@@ -31,7 +31,8 @@ namespace Yort.Http.Pipeline.Portable.Tests
 				CredentialProvider = new SimpleCredentialProvider(credentials),
 				Scope = "master_all",
 				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
-				RequestSigningMethod = OAuth2HttpRequestSigningMethod.UrlQuery
+				RequestSigningMethod = OAuth2HttpRequestSigningMethod.UrlQuery,
+				RequestAuthentication = OAuth2RequestSigningHandler.NonInteractiveAuthenticationByJsonResponse
 			};
 
 			var signer = new OAuth2RequestSigningHandler(settings);

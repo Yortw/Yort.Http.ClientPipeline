@@ -34,7 +34,11 @@ namespace Yort.Http.Pipeline
 		/// <returns>Returns the credentials provided via the constructoor.</returns>
 		public Task<ICredentials> GetCredentials()
 		{
+#if SUPPORTS_TASKEX
 			return TaskEx.FromResult<ICredentials>(_Credentials);
+#else
+			return Task.FromResult<ICredentials>(_Credentials);
+#endif
 		}
 	}
 }

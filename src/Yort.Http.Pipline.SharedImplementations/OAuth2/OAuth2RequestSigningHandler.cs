@@ -20,6 +20,7 @@ namespace Yort.Http.Pipeline.OAuth2
 
 		private OAuth2Settings _Settings;
 		private OAuth2Token _Token;
+		private IRequestCondition _RequestCondition;
 
 		#endregion
 
@@ -30,7 +31,7 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// </summary>
 		/// <param name="settings">An <see cref="OAuth2Settings"/> instance containing details used to request and manage tokens and authentication flows.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if the <paramref name="settings"/> is null.</exception>
-		public OAuth2RequestSigningHandler(OAuth2Settings settings) : this(settings, CreateDefaultInnerHandler())
+		public OAuth2RequestSigningHandler(OAuth2Settings settings) : this(settings, CreateDefaultInnerHandler(), null)
 		{
 		}
 
@@ -40,11 +41,26 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <param name="settings">An <see cref="OAuth2Settings"/> instance containing details used to request and manage tokens and authentication flows.</param>
 		/// <param name="innerHandler">The inner <see cref="System.Net.Http.HttpMessageHandler"/> to call in the pipeline.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if the <paramref name="settings"/> is null.</exception>
-		public OAuth2RequestSigningHandler(OAuth2Settings settings, System.Net.Http.HttpMessageHandler innerHandler) : base(innerHandler)
+		public OAuth2RequestSigningHandler(OAuth2Settings settings, System.Net.Http.HttpMessageHandler innerHandler) : this(settings, innerHandler, null)
+		{
+		}
+
+		/// <summary>
+		/// Constructs a new instance using the specified <see cref="OAuth2Settings"/>.
+		/// </summary>
+		/// <param name="settings">An <see cref="OAuth2Settings"/> instance containing details used to request and manage tokens and authentication flows.</param>
+		/// <param name="innerHandler">The inner <see cref="System.Net.Http.HttpMessageHandler"/> to call in the pipeline.</param>
+		/// <param name="requestCondition">An optional <see cref="IRequestCondition"/> used to determine if authorisation is required. If null, then authorisation is always performed.</param>
+		/// <exception cref="System.ArgumentNullException">Thrown if the <paramref name="settings"/> is null.</exception>
+		public OAuth2RequestSigningHandler(OAuth2Settings settings, System.Net.Http.HttpMessageHandler innerHandler, IRequestCondition requestCondition) : base(innerHandler)
 		{
 			if (settings == null) throw new ArgumentNullException(nameof(settings));
 
+			_RequestCondition = requestCondition;
 			_Settings = settings;
+
+			if (_Settings.GrantType == OAuth2.OAuth2GrantTypes.AuthorizationCode && _Settings.RequestAuthentication == null)
+				throw new ArgumentException("You must provide a RequestAuthentication function when GrantType is authorization_code.", "settings");
 		}
 
 		#endregion
@@ -61,12 +77,59 @@ namespace Yort.Http.Pipeline.OAuth2
 		{
 			if (ShouldAuthoriseRequest(request, _Settings.RequestSigningMethod))
 			{
-				var token = await AcquireToken().ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
-				token.SignRequest(request, _Settings.RequestSigningMethod);
+				try
+				{
+					var token = await AcquireToken(request).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
+					if (token == null) throw new UnauthorizedAccessException("Unable to obtain token.");
+
+					token.SignRequest(request, _Settings.RequestSigningMethod);
+				}
+				catch (UnauthorizedAccessException uae)
+				{
+					return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized)
+					{
+						ReasonPhrase = uae.Message
+					};
+				}
 			}
 
 			return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+		}
+
+		#endregion
+
+		#region Public Static Members
+
+		/// <summary>
+		/// Provides an authorisation code by deserialising the body of the response from an authentication uri request as json.
+		/// </summary>
+		/// <remarks>
+		/// <para>You almost certainly do not want to use this. A proper OAuth2 authorization_code flow should involve user interaction to authenticate. 
+		/// This method avoids that. Instead it assumes the authorisation url returns a simple json object with a 'code' property containing the authorisation code.
+		/// Typically this is not the case, so it will not work. However, some third party systems have implemented this style of authentication for systems integrations when
+		/// they should have implemented the client or implicit grant flows instead. In those cases, this method can be provided to the <see cref="OAuth2.OAuth2Settings.RequestAuthentication"/>
+		/// property to enable the auth flow without additional code.</para>
+		/// </remarks>
+		/// <param name="authorisationUri"></param>
+		/// <returns></returns>
+		public static async Task<AuthorisationCodeResponse> NonInteractiveAuthenticationByJsonResponse(Uri authorisationUri)
+		{
+			using (var client = CreateDefaultHttpClient())
+			{
+				var authCodeResult = await client.GetAsync(authorisationUri).ConfigureAwait(false);
+				authCodeResult.EnsureSuccessStatusCode();
+				string authCodeResponse = await authCodeResult.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+				var retVal = new AuthorisationCodeResponse();
+
+				var jsonobject = Newtonsoft.Json.Linq.JObject.Parse(authCodeResponse);
+				retVal.AuthorisationCode = jsonobject["code"].ToString();
+				if (jsonobject["state"] != null)
+					retVal.State = jsonobject["state"].ToString();
+
+				return retVal;
+			}
 		}
 
 		#endregion
@@ -81,10 +144,11 @@ namespace Yort.Http.Pipeline.OAuth2
 			return handler;
 		}
 
-		private static bool ShouldAuthoriseRequest(HttpRequestMessage request, OAuth2HttpRequestSigningMethod signingMethod)
+		private bool ShouldAuthoriseRequest(HttpRequestMessage request, OAuth2HttpRequestSigningMethod signingMethod)
 		{
-			return (signingMethod == OAuth2HttpRequestSigningMethod.AuthorizationHeader && IsAuthHeaderMissing(request.Headers.Authorization)) ||
-					(signingMethod == OAuth2HttpRequestSigningMethod.UrlQuery && IsAccessTokenQueryArgumentMissing(request.RequestUri));
+			return ((signingMethod == OAuth2HttpRequestSigningMethod.AuthorizationHeader && IsAuthHeaderMissing(request.Headers.Authorization)) ||
+					(signingMethod == OAuth2HttpRequestSigningMethod.UrlQuery && IsAccessTokenQueryArgumentMissing(request.RequestUri)))
+					&& (_RequestCondition?.ShouldProcess(request) ?? true);
 		}
 
 		private static bool IsAuthHeaderMissing(AuthenticationHeaderValue authorization)
@@ -102,7 +166,7 @@ namespace Yort.Http.Pipeline.OAuth2
 				|| requestUri.Query.IndexOf("access_token=", StringComparison.OrdinalIgnoreCase) < 0;
 		}
 
-		private async Task<OAuth2Token> AcquireToken()
+		private async Task<OAuth2Token> AcquireToken(HttpRequestMessage requestMessage)
 		{
 			if (HaveValidToken())
 				return _Token;
@@ -111,12 +175,12 @@ namespace Yort.Http.Pipeline.OAuth2
 				HttpClient client = _Settings?.CreateHttpClient?.Invoke() ?? CreateDefaultHttpClient();
 
 				if (_Token != null && !String.IsNullOrWhiteSpace(_Token.RefreshToken))
-					return await RequestToken_RefreshTokenGrant(client, _Token);
+					return await RequestToken_RefreshTokenGrant(client, _Token, requestMessage);
 
 				switch (_Settings.GrantType)
 				{
 					case OAuth2GrantTypes.AuthorizationCode:
-						return await RequestToken_AuthorizationCodeGrant(client).ConfigureAwait(false);
+						return await RequestToken_AuthorizationCodeGrant(client, requestMessage).ConfigureAwait(false);
 
 					case OAuth2GrantTypes.ClientCredentials:
 						return await RequestToken_ClientCredentialsGrant(client).ConfigureAwait(false);
@@ -136,7 +200,7 @@ namespace Yort.Http.Pipeline.OAuth2
 			return new HttpClient(handler);
 		}
 
-		private async Task<OAuth2Token> RequestToken_RefreshTokenGrant(HttpClient client, OAuth2Token token)
+		private async Task<OAuth2Token> RequestToken_RefreshTokenGrant(HttpClient client, OAuth2Token token, HttpRequestMessage request)
 		{
 			//TODO: Handle state argument
 			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
@@ -159,24 +223,29 @@ namespace Yort.Http.Pipeline.OAuth2
 #else
 					//On an error, attempt to get a new token rather than refreshing one.
 					_Token = null;
-					return await AcquireToken();
+					return await AcquireToken(request);
 #endif
 				}
 			}
 		}
 
-		private async Task<OAuth2Token> RequestToken_AuthorizationCodeGrant(HttpClient client)
+		private async Task<OAuth2Token> RequestToken_AuthorizationCodeGrant(HttpClient client, HttpRequestMessage request)
 		{
-			//TODO: Handle state argument
 			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
 				var authCodeUrlBuilder = new UriBuilder(_Settings.AuthorizeUrl);
-				authCodeUrlBuilder.Query = $"client_id={creds.Identifier}&redirect_uri={_Settings.RedirectUrl.ToString()}&response_type=code&scope={_Settings.Scope}";
+				string state = _Settings?.State?.Invoke(request);
 
-				var authCodeResult = await client.GetAsync(authCodeUrlBuilder.Uri).ConfigureAwait(false);
-				authCodeResult.EnsureSuccessStatusCode();
-				string authCodeResponse = await authCodeResult.Content.ReadAsStringAsync().ConfigureAwait(false);
-				var codeStr = Newtonsoft.Json.Linq.JObject.Parse(authCodeResponse)["code"].ToString();
+				authCodeUrlBuilder.Query = $"client_id={creds.Identifier}&redirect_uri={_Settings.RedirectUrl.ToString()}&response_type=code&scope={_Settings.Scope}";
+				if (!String.IsNullOrEmpty(state))
+					authCodeUrlBuilder.Query += "&state=" + state;
+
+				var authCodeResult = await _Settings.RequestAuthentication(authCodeUrlBuilder.Uri).ConfigureAwait(false);
+				if (authCodeResult == null || String.IsNullOrWhiteSpace(authCodeResult.AuthorisationCode))
+					throw new UnauthorizedAccessException(authCodeResult.ErrorResponse ?? "No authorisation code returned.");
+
+				if (authCodeResult.State != state)
+					throw new UnauthorizedAccessException("Unexpected 'state' value returned from authentication url.");
 
 				var content = new System.Net.Http.MultipartFormDataContent();
 				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.AuthorizationCode), "grant_type");
@@ -184,7 +253,9 @@ namespace Yort.Http.Pipeline.OAuth2
 				content.Add(new System.Net.Http.StringContent(creds.Secret), "client_secret");
 				content.Add(new System.Net.Http.StringContent(_Settings.RedirectUrl.ToString()), "redirect_uri");
 				content.Add(new System.Net.Http.StringContent(_Settings.Scope), "scope");
-				content.Add(new System.Net.Http.StringContent(codeStr), "code");
+				content.Add(new System.Net.Http.StringContent(authCodeResult.AuthorisationCode), "code");
+				if (!String.IsNullOrEmpty(authCodeResult.State))
+					content.Add(new System.Net.Http.StringContent(authCodeResult.AuthorisationCode), "state");
 
 				var tokenResult = await client.PostAsync(_Settings.AccessTokenUrl, content).ConfigureAwait(false);
 				return await ProcessTokenResponse(tokenResult).ConfigureAwait(false);
