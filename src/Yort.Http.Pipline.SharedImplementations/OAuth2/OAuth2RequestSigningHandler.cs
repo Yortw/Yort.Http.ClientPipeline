@@ -202,13 +202,15 @@ namespace Yort.Http.Pipeline.OAuth2
 
 		private async Task<OAuth2Token> RequestToken_RefreshTokenGrant(HttpClient client, OAuth2Token token, HttpRequestMessage request)
 		{
-			//TODO: Handle state argument
 			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
 				var content = new System.Net.Http.MultipartFormDataContent();
 				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.RefreshToken), "grant_type");
 				content.Add(new System.Net.Http.StringContent(token.RefreshToken), "refresh_token");
 				content.Add(new System.Net.Http.StringContent(_Settings.Scope), "scope");
+				var state = _Settings.State(request);
+				if (state != null)
+					content.Add(new System.Net.Http.StringContent(state), "state");
 
 				var tokenResult = await client.PostAsync(_Settings.AccessTokenUrl, content).ConfigureAwait(false);
 

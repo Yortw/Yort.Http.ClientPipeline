@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyDescription("Yort.Http.Pipeline for .Net 4.0")]
+[assembly: AssemblyDescription("Yort.Http.Pipeline for .Net 4.5+")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d841c066-8418-47df-9ae3-6e3a62501adc")]
+[assembly: Guid("C75F5C85-0A7F-4BF5-8A0A-4D59F1900E44")]
 
 // Version information for an assembly consists of the following four values:
 //

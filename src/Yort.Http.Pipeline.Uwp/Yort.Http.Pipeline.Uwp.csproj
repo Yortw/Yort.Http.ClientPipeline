@@ -131,19 +131,19 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndWebRequestCondition.cs" />
-    <Compile Include="AuthorityWebHttpRequestCondition.cs" />
-    <Compile Include="CompressedRequestFilter.cs" />
+    <Compile Include="Conditions\AndWebRequestCondition.cs" />
+    <Compile Include="Conditions\AuthorityWebHttpRequestCondition.cs" />
+    <Compile Include="Filters\CompressedRequestFilter.cs" />
     <Compile Include="IWebHttpRequestCondition.cs" />
-    <Compile Include="OrRequestCondition.cs" />
-    <Compile Include="WebRequestContentMediaTypeCondition.cs" />
+    <Compile Include="Conditions\OrRequestCondition.cs" />
+    <Compile Include="Conditions\WebRequestContentMediaTypeCondition.cs" />
     <Compile Include="WebHttpHeaderExtensions.cs" />
     <Compile Include="RetryFilterBase.cs" />
-    <Compile Include="TooManyRequestsRetryFilter.cs" />
-    <Compile Include="ServiceUnavailableRetryFilter.cs" />
+    <Compile Include="Filters\TooManyRequestsRetryFilter.cs" />
+    <Compile Include="Filters\ServiceUnavailableRetryFilter.cs" />
     <Compile Include="WebHttpClientExtensions.cs" />
     <Compile Include="WebHttpStatusCodeExtensions.cs" />
-    <Compile Include="InsecureRedirectionFilter.cs" />
+    <Compile Include="Filters\InsecureRedirectionFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Yort.Http.Pipeline.Uwp.rd.xml" />
   </ItemGroup>

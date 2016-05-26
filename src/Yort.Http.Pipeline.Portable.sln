@@ -19,12 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.Android"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.iOS", "Yort.Http.Pipeline.iOS\Yort.Http.Pipeline.iOS.csproj", "{D424D5A0-1A70-4997-98C1-44C1845B4E91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.Net45", "Yort.Http.Pipeline.Net45\Yort.Http.Pipeline.Net45.csproj", "{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{d424d5a0-1a70-4997-98c1-44c1845b4e91}*SharedItemsImports = 4
 		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{c9882f35-7885-46b9-8d07-24da6651101f}*SharedItemsImports = 4
 		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{af9d054e-6020-402b-a609-737370216de3}*SharedItemsImports = 4
 		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{d841c066-8418-47df-9ae3-6e3a62501adc}*SharedItemsImports = 4
+		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{3d7f2fd6-7eae-4a4d-8368-30b886c59ace}*SharedItemsImports = 4
 		Yort.Http.Pipline.SharedImplementations\Yort.Http.Pipline.SharedImplementations.projitems*{9d8e37c9-976d-49b0-9267-768594e44e6b}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +223,30 @@ Global
 		{D424D5A0-1A70-4997-98C1-44C1845B4E91}.Release|x64.Build.0 = Release|Any CPU
 		{D424D5A0-1A70-4997-98C1-44C1845B4E91}.Release|x86.ActiveCfg = Release|Any CPU
 		{D424D5A0-1A70-4997-98C1-44C1845B4E91}.Release|x86.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|ARM.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|ARM.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|x64.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|x64.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|x86.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.AppStore|x86.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|ARM.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|x64.Build.0 = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D7F2FD6-7EAE-4A4D-8368-30B886C59ACE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

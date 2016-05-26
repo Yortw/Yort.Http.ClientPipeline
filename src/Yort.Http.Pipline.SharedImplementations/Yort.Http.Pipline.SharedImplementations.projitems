@@ -9,9 +9,22 @@
     <Import_RootNamespace>Yort.Http.Pipeline</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Conditions\AndRequestCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Conditions\AuthorityRequestCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Conditions\IRequestCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Conditions\OrRequestCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Conditions\RequestContentMediaTypeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Credentials\ICredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Credentials\ICredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Credentials\SimpleCredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Credentials\SimpleCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ICredentialProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ICredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\CompressedRequestHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\InsecureRedirectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\MockMessageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\RetryHandlerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\ServiceUnavailableRetryHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\TooManyRequestsRetryHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\AuthorisationCodeResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Error.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Exception.cs" />
@@ -21,25 +34,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2TokenError.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OrRequestCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AndRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaTypes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RequestContentMediaTypeCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AuthorityRequestCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CompressedRequestHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpHeaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpStatusCodeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InsecureRedirectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IRedirectCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IRequestCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedirectCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RetryHandlerBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SimpleCredentialProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SimpleCredentials.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TooManyRequestsRetryHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceUnavailableRetryHandler.cs" />
   </ItemGroup>
 </Project>
