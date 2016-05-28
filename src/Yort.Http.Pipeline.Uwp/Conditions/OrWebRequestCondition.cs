@@ -7,9 +7,9 @@ using System.Linq;
 namespace Yort.Http.Pipeline
 {
 	/// <summary>
-	/// An aggregate <see cref="IWebHttpRequestCondition"/>, returns true only if ALL child conditions are true.
+	/// An aggregate <see cref="IWebHttpRequestCondition"/>, returns true if ANY child conditions are true.
 	/// </summary>
-	public class AndWebRequestCondition : IWebHttpRequestCondition
+	public class OrWebRequestCondition : IWebHttpRequestCondition
 	{
 		private IEnumerable<IWebHttpRequestCondition> _ChildConditions;
 
@@ -18,7 +18,7 @@ namespace Yort.Http.Pipeline
 		/// </summary>
 		/// <param name="childConditions">The enumerable set of child conditions that must all be true for this condition to be true.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if <paramref name="childConditions"/> is null.</exception>
-		public AndWebRequestCondition(IEnumerable<IWebHttpRequestCondition> childConditions)
+		public OrWebRequestCondition(IEnumerable<IWebHttpRequestCondition> childConditions)
 		{
 			if (childConditions == null) throw new ArgumentNullException(nameof(childConditions));
 
@@ -32,7 +32,7 @@ namespace Yort.Http.Pipeline
 		/// <returns>True if all child conditions are true for the specified request.</returns>
 		public bool ShouldProcess(HttpRequestMessage requestMessage)
 		{
-			return !_ChildConditions.Any((c) => !c.ShouldProcess(requestMessage));
+			return _ChildConditions.Any((c) => c.ShouldProcess(requestMessage));
 		}
 	}
 }

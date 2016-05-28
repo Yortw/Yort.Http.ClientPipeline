@@ -11,7 +11,7 @@ namespace Yort.Http.Pipeline
 	/// <remarks>
 	/// <para>Authority names are treated as case sensitive.</para>
 	/// </remarks>
-	public class AuthorityWebHttpRequestCondition : IWebHttpRequestCondition
+	public class AuthorityWebRequestCondition : IWebHttpRequestCondition
 	{
 
 		private System.Collections.Concurrent.ConcurrentDictionary<string, string> _AllowedAuthorities;
@@ -19,7 +19,7 @@ namespace Yort.Http.Pipeline
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public AuthorityWebHttpRequestCondition()
+		public AuthorityWebRequestCondition()
 		{
 			_AllowedAuthorities = new System.Collections.Concurrent.ConcurrentDictionary<string, string>();
 		}
@@ -28,7 +28,7 @@ namespace Yort.Http.Pipeline
 		/// Full constructor.
 		/// </summary>
 		/// <param name="allowedAuthorities">An enumerable of authority names that are allowed by this condition.</param>
-		public AuthorityWebHttpRequestCondition(IEnumerable<string> allowedAuthorities) : this()
+		public AuthorityWebRequestCondition(IEnumerable<string> allowedAuthorities) : this()
 		{
 			if (allowedAuthorities == null) return;
 

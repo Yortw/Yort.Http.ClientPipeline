@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yort.Http.Pipeline.Portable.Tests</RootNamespace>
-    <AssemblyName>Yort.Http.Pipeline.Portable.Tests</AssemblyName>
+    <AssemblyName>Yort.Http.Pipeline.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -91,18 +91,14 @@
     <Compile Include="TestSecrets.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yort.Http.Pipeline.Net40\Yort.Http.Pipeline.Net40.csproj">
-      <Project>{d841c066-8418-47df-9ae3-6e3a62501adc}</Project>
-      <Name>Yort.Http.Pipeline.Net40</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Yort.Http.Pipeline.Portable\Yort.Http.Pipeline.Portable.csproj">
-      <Project>{422cafc0-cd17-4134-a61f-2cecbe4b3f08}</Project>
-      <Name>Yort.Http.Pipeline.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yort.Http.Pipeline.Net45\Yort.Http.Pipeline.Net45.csproj">
+      <Project>{3d7f2fd6-7eae-4a4d-8368-30b886c59ace}</Project>
+      <Name>Yort.Http.Pipeline.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.Portable.Tests", "Yort.Http.Pipeline.Portable.Tests\Yort.Http.Pipeline.Portable.Tests.csproj", "{171FA182-A780-45E8-90AA-52FF83BFA83A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.Tests", "Yort.Http.Pipeline.Portable.Tests\Yort.Http.Pipeline.Tests.csproj", "{171FA182-A780-45E8-90AA-52FF83BFA83A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yort.Http.Pipeline.Portable", "Yort.Http.Pipeline.Portable\Yort.Http.Pipeline.Portable.csproj", "{422CAFC0-CD17-4134-A61F-2CECBE4B3F08}"
 EndProject
@@ -129,9 +129,9 @@ Global
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.AppStore|x86.ActiveCfg = Release|x86
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.AppStore|x86.Build.0 = Release|x86
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.AppStore|x86.Deploy.0 = Release|x86
-		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.Build.0 = Debug|x86
-		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.Deploy.0 = Debug|x86
+		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|ARM.ActiveCfg = Debug|ARM
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|ARM.Build.0 = Debug|ARM
 		{F20AC944-54BA-49F5-9D35-644FCF621ACC}.Debug|ARM.Deploy.0 = Debug|ARM

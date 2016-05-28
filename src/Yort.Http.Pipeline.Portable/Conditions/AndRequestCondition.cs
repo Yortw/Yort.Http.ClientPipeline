@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using Windows.Web.Http;
+using System.Net.Http;
 using System.Text;
 using System.Linq;
 
 namespace Yort.Http.Pipeline
 {
 	/// <summary>
-	/// An aggregate <see cref="IWebHttpRequestCondition"/>, returns true if ANY child conditions are true.
+	/// An aggregate <see cref="IRequestCondition"/>, returns true only if ALL child conditions are true.
 	/// </summary>
-	public class OrWebHttpRequestCondition : IWebHttpRequestCondition
+	public class AndRequestCondition : IRequestCondition
 	{
-		private IEnumerable<IWebHttpRequestCondition> _ChildConditions;
-
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
 		/// <param name="childConditions">The enumerable set of child conditions that must all be true for this condition to be true.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if <paramref name="childConditions"/> is null.</exception>
-		public OrWebHttpRequestCondition(IEnumerable<IWebHttpRequestCondition> childConditions)
+		public AndRequestCondition(IEnumerable<IRequestCondition> childConditions)
 		{
-			if (childConditions == null) throw new ArgumentNullException(nameof(childConditions));
-
-			_ChildConditions = childConditions;
+			Helper.Throw();
 		}
 
 		/// <summary>
@@ -32,7 +28,8 @@ namespace Yort.Http.Pipeline
 		/// <returns>True if all child conditions are true for the specified request.</returns>
 		public bool ShouldProcess(HttpRequestMessage requestMessage)
 		{
-			return _ChildConditions.Any((c) => c.ShouldProcess(requestMessage));
+			Helper.Throw();
+			return false;
 		}
 	}
 }
