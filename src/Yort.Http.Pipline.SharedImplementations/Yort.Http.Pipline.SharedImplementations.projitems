@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\MockMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\RetryHandlerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\ServiceUnavailableRetryHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\ThrottledConcurrentRequestHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\TooManyRequestsRetryHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\AuthorisationCodeResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth2\OAuth2Error.cs" />

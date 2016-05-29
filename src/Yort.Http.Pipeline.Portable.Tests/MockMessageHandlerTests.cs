@@ -10,7 +10,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 		[TestMethod]
 		[TestCategory("MessageHandlers")]
 		[TestCategory(nameof(MockMessageHandler))]
-		public async Task MockMessageHandler_ReturnsNotFoundForUknownRequest()
+		public async Task MockMessageHandler_ReturnsNotFoundForUnknownRequest()
 		{
 			var requestUriString = "http://www.mytestdomain.com/";
 

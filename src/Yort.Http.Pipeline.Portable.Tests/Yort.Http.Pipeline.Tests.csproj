@@ -81,6 +81,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ThrottledConcurrentRequestHandlerTests.cs" />
     <Compile Include="OrRequestConditionTests.cs" />
     <Compile Include="AndRequestConditionTests.cs" />
     <Compile Include="RequestCompressingHandlerTests.cs" />

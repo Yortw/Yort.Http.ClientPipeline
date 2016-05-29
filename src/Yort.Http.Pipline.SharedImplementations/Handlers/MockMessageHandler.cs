@@ -94,6 +94,17 @@ namespace Yort.Http.Pipeline
 		}
 
 		/// <summary>
+		/// Adds a static response for a specific request uri.
+		/// </summary>
+		/// <param name="responseHandler">A <see cref="MockResponseHandler"/> instance used to generate a response for requests.</param>
+		public void AddDynamicResponse(MockResponseHandler responseHandler)
+		{
+			if (responseHandler == null) throw new ArgumentNullException(nameof(responseHandler));
+
+			_DynamicResponses.Add(responseHandler);
+		}
+
+		/// <summary>
 		/// Checks for configured responses and returns one, or if none is found returns a generic 404 response.
 		/// </summary>
 		/// <param name="request">A <see cref="HttpResponseMessage"/> to process.</param>
@@ -114,7 +125,7 @@ namespace Yort.Http.Pipeline
 			foreach (var handler in _DynamicResponses)
 			{
 				if (handler.CanHandleRequest == null || handler.CanHandleRequest(request))
-					return handler.HandleRequest(request);
+					return await handler.HandleRequest(request);
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -229,6 +240,7 @@ namespace Yort.Http.Pipeline
 		/// <summary>
 		/// A function that accepts an <see cref="HttpRequestMessage"/> and returns an appropriate <see cref="HttpResponseMessage"/>. 
 		/// </summary>
-		public Func<HttpRequestMessage, HttpResponseMessage> HandleRequest { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+		public Func<HttpRequestMessage, Task<HttpResponseMessage>> HandleRequest { get; set; }
 	}
 }

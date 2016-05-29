@@ -134,6 +134,7 @@
     <Compile Include="Conditions\AndWebRequestCondition.cs" />
     <Compile Include="Conditions\AuthorityWebRequestCondition.cs" />
     <Compile Include="Filters\CompressedRequestFilter.cs" />
+    <Compile Include="Filters\ThrottledConcurrentRequestsFilter.cs" />
     <Compile Include="IWebHttpRequestCondition.cs" />
     <Compile Include="Conditions\OrWebRequestCondition.cs" />
     <Compile Include="Conditions\WebRequestContentMediaTypeCondition.cs" />
