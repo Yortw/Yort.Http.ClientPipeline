@@ -13,7 +13,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 	public class OAuth2RequestSigningHandlerTests
 	{
 
-		#region Constructors
+		#region Constructor Tests
 
 		[TestMethod]
 		[TestCategory("MessageHandlers")]
@@ -76,6 +76,88 @@ namespace Yort.Http.Pipeline.Portable.Tests
 		[TestCategory(nameof(OAuth2RequestSigningHandler))]
 		public async Task OAuth2RequestSigningHandler_RequestsTokenThenSignsRequest()
 		{
+			#region Test Setup
+
+			MockMessageHandler mockHandler = SetupOAuth2MockHandler();
+
+			var credentials = new SimpleCredentials()
+			{
+				Identifier = "987654321",
+				Secret = "abcdefghilmnopqrstuvzabc"
+			};
+
+			var settings = new OAuth2.OAuth2Settings()
+			{
+				CreateHttpClient = () => new System.Net.Http.HttpClient(mockHandler),
+				AccessTokenUrl = new Uri("http://testsite.com/Token"),
+				AuthorizeUrl = new Uri("http://testsite.com/Authorize"),
+				RedirectUrl = new Uri("http://testsite.com/AuthComplete"),
+				ClientCredentialProvider = new SimpleCredentialProvider(credentials),
+				Scope = "master_all",
+				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
+				RequestSigningMethod = OAuth2HttpRequestSigningMethod.AuthorizationHeader,
+				RequestAuthentication = (authuri) =>
+				{
+					return Task.FromResult(new AuthorisationCodeResponse() { AuthorisationCode = "28770506516186843330" });
+				},
+				TokenQueryStringKey = "oauth_token"
+			};
+
+			var signer = new OAuth2RequestSigningHandler(settings, mockHandler);
+
+			#endregion
+
+			var client = new System.Net.Http.HttpClient(signer);
+			var result = await client.GetAsync("http://testsite.com/TestEndpoint");
+			result.EnsureSuccessStatusCode();
+			Assert.AreEqual("Yay! You're authed.", await result.Content.ReadAsStringAsync());
+		}
+
+		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(OAuth2RequestSigningHandler))]
+		public async Task OAuth2RequestSigningHandler_UsesInitialTokenIfNotExpired()
+		{
+			#region Test Setup
+
+			MockMessageHandler mockHandler = SetupOAuth2MockHandler();
+
+			var credentials = new SimpleCredentials()
+			{
+				Identifier = "987654321",
+				Secret = "abcdefghilmnopqrstuvzabc"
+			};
+
+			var settings = new OAuth2.OAuth2Settings()
+			{
+				AccessToken = new OAuth2.OAuth2Token() { AccessToken = "123", ExpiresIn = 3600, RefreshToken = "456", TokenType = "Bearer", Created = DateTime.Now },
+				CreateHttpClient = () => new System.Net.Http.HttpClient(mockHandler),
+				AccessTokenUrl = new Uri("http://testsite.com/Token"),
+				AuthorizeUrl = new Uri("http://testsite.com/Authorize"),
+				RedirectUrl = new Uri("http://testsite.com/AuthComplete"),
+				ClientCredentialProvider = new SimpleCredentialProvider(credentials),
+				Scope = "master_all",
+				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
+				RequestSigningMethod = OAuth2HttpRequestSigningMethod.AuthorizationHeader,
+				RequestAuthentication = (authuri) =>
+				{
+					throw new InvalidOperationException("New token was being requested! Existing token should have been used.");
+				},
+				TokenQueryStringKey = "oauth_token"
+			};
+
+			var signer = new OAuth2RequestSigningHandler(settings, mockHandler);
+
+			#endregion
+
+			var client = new System.Net.Http.HttpClient(signer);
+			var result = await client.GetAsync("http://testsite.com/TestEndpoint");
+			result.EnsureSuccessStatusCode();
+			Assert.AreEqual("Yay! You're authed.", await result.Content.ReadAsStringAsync());
+		}
+
+		private static MockMessageHandler SetupOAuth2MockHandler()
+		{
 			var mockHandler = new MockMessageHandler();
 			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Token"), new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) });
 			var mockResponse = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Redirect) { Content = new System.Net.Http.StringContent("Normall this is a web page the user logs into, but this test is automated and skips that.", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
@@ -110,34 +192,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 				return Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("Yay! You're authed.") });
 			};
 			mockHandler.AddDynamicResponse(authCheckingHandler);
-
-			var credentials = new SimpleCredentials()
-			{
-				Identifier = "987654321",
-				Secret = "abcdefghilmnopqrstuvzabc"
-			};
-
-			var settings = new OAuth2.OAuth2Settings()
-			{
-				CreateHttpClient = () => new System.Net.Http.HttpClient(mockHandler),
-				AccessTokenUrl = new Uri("http://testsite.com/Token"),
-				AuthorizeUrl = new Uri("http://testsite.com/Authorize"),
-				RedirectUrl = new Uri("http://testsite.com/AuthComplete"),
-				ClientCredentialProvider = new SimpleCredentialProvider(credentials),
-				Scope = "master_all",
-				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
-				RequestSigningMethod = OAuth2HttpRequestSigningMethod.AuthorizationHeader,
-				RequestAuthentication = (authuri) => {
-					return Task.FromResult(new AuthorisationCodeResponse() { AuthorisationCode = "28770506516186843330" });
-					},
-				TokenQueryStringKey = "oauth_token"
-			};
-
-			var signer = new OAuth2RequestSigningHandler(settings, mockHandler);
-			var client = new System.Net.Http.HttpClient(signer);
-			var result = await client.GetAsync("http://testsite.com/TestEndpoint");
-			result.EnsureSuccessStatusCode();
+			return mockHandler;
 		}
-
 	}
 }

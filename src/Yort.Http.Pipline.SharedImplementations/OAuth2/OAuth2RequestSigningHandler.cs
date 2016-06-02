@@ -58,6 +58,7 @@ namespace Yort.Http.Pipeline.OAuth2
 			if (settings == null) throw new ArgumentNullException(nameof(settings));
 			settings.Validate();
 
+			_Token = settings.AccessToken;
 			_RequestCondition = requestCondition;
 			_Settings = settings;
 		}
@@ -78,7 +79,7 @@ namespace Yort.Http.Pipeline.OAuth2
 			{
 				try
 				{
-					var token = await AcquireToken(request).ConfigureAwait(false);
+					var	token = await AcquireToken(request).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
 					if (token == null) throw new UnauthorizedAccessException("Unable to obtain token.");
 

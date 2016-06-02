@@ -24,6 +24,14 @@ namespace Yort.Http.Pipeline.OAuth2
 		}
 
 		/// <summary>
+		/// Sets or returns an existing <see cref="OAuth2Token"/> instance that will be used to sign requests until it expires, at which point a new token will be requested.
+		/// </summary>
+		/// <remarks>
+		/// <para>If you have long lived tokens you are persisting and reusing between app sessions, set this to the deserialised token previously acquired. It will be used until it expires, and then a new token will be requested automatically.</para>
+		/// </remarks>
+		public OAuth2Token AccessToken { get; set; }
+
+		/// <summary>
 		/// The end point accessed to retrieve an authorisation code. Only required by authentication flows that use authorisation codes.
 		/// </summary>
 		public Uri AuthorizeUrl { get; set; }

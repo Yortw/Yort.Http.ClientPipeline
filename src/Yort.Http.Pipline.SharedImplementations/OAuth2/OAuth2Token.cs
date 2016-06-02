@@ -74,6 +74,25 @@ namespace Yort.Http.Pipeline.OAuth2
 		public string RefreshToken { get; set; }
 
 		/// <summary>
+		/// Sets or returns the date and time the token was created.
+		/// </summary>
+		/// <remarks>
+		/// <para>This is automatically set to <see cref="DateTime.Now"/> by the constructor, but should be saved and reloaded along with the other properties if persisting the token between app sessions.</para>
+		/// </remarks>
+		public DateTime Created
+		{
+			get
+			{
+				return _Created;
+			}
+
+			set
+			{
+				_Created = value;
+			}
+		}
+
+		/// <summary>
 		/// Signs the specified <see cref="HttpRequestMessage"/> using this token.
 		/// </summary>
 		/// <remarks>
