@@ -11,7 +11,7 @@ namespace Yort.Http.Pipeline.OAuth2
 	/// Represents a simple/base OAuth 2.0 token (bearer style token).
 	/// </summary>
 	/// <remarks>
-	/// <para>Other types of token, such as MAC tokens, should derive from this class and provide additional properties for the extra values required. They should also override the <see cref="SignRequest(HttpRequestMessage, OAuth2HttpRequestSigningMethod)"/> method if neccesary, to correctly sign requests made with this token.</para>
+	/// <para>Other types of token, such as MAC tokens, should derive from this class and provide additional properties for the extra values required. They should also override the <see cref="SignRequest(HttpRequestMessage, OAuth2HttpRequestSigningMethod, string)"/> method if neccesary, to correctly sign requests made with this token.</para>
 	/// </remarks>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Instantiated via Json deserialisation (reflection).")]
 #if __IOS__
