@@ -1,5 +1,8 @@
 # Yort.Http.Pipeline
 
+## This sausage is still being made. You probably don't want to look at what's going on here until it's 'done'.
+On the other hand, if you really want something here then go for it (see [license](license.md)). Just expect breaking changes, bugs and other problems as development continues. Pull requests appreciated.
+
 ## What is it?
 A collection of handlers, filters and stuff related to System.Net.Http.HttpClient and Windows.Web.Http.HttpClient.
 

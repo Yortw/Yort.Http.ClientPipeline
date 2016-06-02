@@ -77,13 +77,15 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// Signs the specified <see cref="HttpRequestMessage"/> using this token.
 		/// </summary>
 		/// <remarks>
-		/// <para>Unless overridden this method signs the request by setting providing the token value (and token type as the 'scheme' if <param name="signingMethod"/>  is <see cref="OAuth2HttpRequestSigningMethod.AuthorizationHeader"/>).</para>
+		/// <para>Unless overridden this method signs the request by setting providing the token value (and token type as the 'scheme' if <paramref name="signingMethod"/>  is <see cref="OAuth2HttpRequestSigningMethod.AuthorizationHeader"/>).</para>
 		/// </remarks>
 		/// <param name="request">The <see cref="HttpRequestMessage"/> instance to be signed.</param>
+		/// <param name="signingMethod">The way the request should be signed (auth header, url query string etc).</param>
+		/// <param name="tokenQueryKey">If the <paramref name="signingMethod"/> is <see cref="OAuth2HttpRequestSigningMethod.UrlQuery"/> this is the key to use for the token value in the query string.</param>
 		/// <exception cref="ArgumentNullException">Thrown if the <paramref name="request"/> argument is null.</exception>
 		/// <exception cref="NotSupportedException">Thrown if an unknown or unsupported <paramref name="signingMethod"/> value is provided.</exception>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "OAuth")]
-		public virtual void SignRequest(HttpRequestMessage request, OAuth2HttpRequestSigningMethod signingMethod)
+		public virtual void SignRequest(HttpRequestMessage request, OAuth2HttpRequestSigningMethod signingMethod, string tokenQueryKey)
 		{
 			if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -94,7 +96,7 @@ namespace Yort.Http.Pipeline.OAuth2
 					break;
 
 				case OAuth2HttpRequestSigningMethod.UrlQuery:
-					request.RequestUri = new Uri(request.RequestUri.ToString() + (String.IsNullOrEmpty(request.RequestUri.Query) ? "?" : "&") + "access_token=" + Uri.EscapeDataString(this.AccessToken));
+					request.RequestUri = new Uri(request.RequestUri.ToString() + (String.IsNullOrEmpty(request.RequestUri.Query) ? "?" : "&") + (tokenQueryKey ?? "access_token")  + "=" + Uri.EscapeDataString(this.AccessToken));
 					break;
 
 				default:

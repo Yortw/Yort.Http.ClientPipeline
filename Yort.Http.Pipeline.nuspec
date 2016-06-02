@@ -9,7 +9,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A collection of handlers, filters and HttpClient related stuff.</description>
         <summary />
-        <tags>.net 4 4.5 winrt uwp android ios httpclient http handler filter</tags>
+        <tags>httpclient http handler filter .net 4 4.5 winrt uwp android ios</tags>
         <dependencies>
             <group>
                 <dependency id="Newtonsoft.Json" version="6.0.8" />

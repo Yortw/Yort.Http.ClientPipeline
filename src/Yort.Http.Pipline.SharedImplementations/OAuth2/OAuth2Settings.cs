@@ -20,6 +20,7 @@ namespace Yort.Http.Pipeline.OAuth2
 			this.SupportedTokenTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 			this.SupportedTokenTypes.Add("Bearer", typeof(OAuth2Token));
 			this.SupportedTokenTypes.Add("Token", typeof(OAuth2Token));
+			this.TokenQueryStringKey = "access_token";
 		}
 
 		/// <summary>
@@ -38,7 +39,7 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <summary>
 		/// A reference to an <see cref="ICredentialProvider"/> implementation that is used to retreive the client id and secret when neccesary.
 		/// </summary>
-		public ICredentialProvider CredentialProvider { get; set; }
+		public ICredentialProvider ClientCredentialProvider { get; set; }
 
 		/// <summary>
 		/// The type of grant being requested. The default value is <see cref="OAuth2GrantTypes.AuthorizationCode"/>.
@@ -73,6 +74,14 @@ namespace Yort.Http.Pipeline.OAuth2
 		public OAuth2HttpRequestSigningMethod RequestSigningMethod { get; set; }
 
 		/// <summary>
+		/// Only used if <see cref="RequestSigningMethod"/> is <see cref="OAuth2HttpRequestSigningMethod.UrlQuery"/>. Specifies the key to use in the url query string for the access token.
+		/// </summary>
+		/// <remarks>
+		/// <para>The default value is "access_token". Some servers may use "oauth_token", "token" or other names.</para>
+		/// </remarks>
+		public string TokenQueryStringKey { get; set; }
+
+		/// <summary>
 		/// Provides a dictionary of OAuth .Net types that represent token types this client supports.
 		/// </summary>
 		/// <remarks>
@@ -89,6 +98,35 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <para>Typically that process would involve using the web authentication broken or another web browser, navigated to the the authorisation url, to the user. The user authenticates using the browser which then redirects to <see cref="RedirectUrl"/> with query arguments for the authorisation code and state if any.</para>
 		/// </remarks>
 		public RequestAuthenticationFunction RequestAuthentication { get; set; }
+
+		/// <summary>
+		/// Checks the current setttings and throws an <see cref="InvalidOperationException"/> with a descriptive error message if any problems are found.
+		/// </summary>
+		public void Validate()
+		{
+			if (this.AuthorizeUrl == null) throw new InvalidOperationException(nameof(AuthorizeUrl) + " cannot be null.");
+			if (this.AccessTokenUrl == null) throw new InvalidOperationException(nameof(AccessTokenUrl) + " cannot be null.");
+			if (this.RedirectUrl == null) throw new InvalidOperationException(nameof(RedirectUrl) + " cannot be null.");
+			if (this.ClientCredentialProvider == null) throw new InvalidOperationException("A " + nameof(ClientCredentialProvider) + " is required for the client id and secret.");
+
+			switch (this.GrantType)
+			{
+				case OAuth2GrantTypes.AuthorizationCode:
+					if (this.RequestAuthentication == null) throw new InvalidOperationException(nameof(RequestAuthentication) + " callback cannot be null for the AuthorizationCode grant type.");
+					break;
+				case OAuth2GrantTypes.ClientCredentials:
+					break;
+
+				case OAuth2GrantTypes.Password:
+					throw new NotImplementedException("The Password grant type is not currently implemented. Pull requests appreciated!");
+
+				case OAuth2GrantTypes.RefreshToken:
+					throw new InvalidOperationException("Refresh token should not be used directly as a grant type.");
+
+				default:
+					throw new InvalidOperationException("Unknown grant type: " + this.GrantType);
+			}
+		}
 	}
 
 	/// <summary>

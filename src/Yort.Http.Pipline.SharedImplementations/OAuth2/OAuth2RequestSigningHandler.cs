@@ -52,15 +52,14 @@ namespace Yort.Http.Pipeline.OAuth2
 		/// <param name="innerHandler">The inner <see cref="System.Net.Http.HttpMessageHandler"/> to call in the pipeline.</param>
 		/// <param name="requestCondition">An optional <see cref="IRequestCondition"/> used to determine if authorisation is required. If null, then authorisation is always performed.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if the <paramref name="settings"/> is null.</exception>
+		/// <exception cref="System.InvalidOperationException">Thrown if a validation error occurs for the <paramref name="settings"/> argument. See <see cref="OAuth2Settings.Validate"/>.</exception>
 		public OAuth2RequestSigningHandler(OAuth2Settings settings, System.Net.Http.HttpMessageHandler innerHandler, IRequestCondition requestCondition) : base(innerHandler)
 		{
 			if (settings == null) throw new ArgumentNullException(nameof(settings));
+			settings.Validate();
 
 			_RequestCondition = requestCondition;
 			_Settings = settings;
-
-			if (_Settings.GrantType == OAuth2.OAuth2GrantTypes.AuthorizationCode && _Settings.RequestAuthentication == null)
-				throw new ArgumentException("You must provide a RequestAuthentication function when GrantType is authorization_code.", "settings");
 		}
 
 		#endregion
@@ -83,7 +82,7 @@ namespace Yort.Http.Pipeline.OAuth2
 					cancellationToken.ThrowIfCancellationRequested();
 					if (token == null) throw new UnauthorizedAccessException("Unable to obtain token.");
 
-					token.SignRequest(request, _Settings.RequestSigningMethod);
+					token.SignRequest(request, _Settings.RequestSigningMethod, _Settings.TokenQueryStringKey);
 				}
 				catch (UnauthorizedAccessException uae)
 				{
@@ -202,7 +201,7 @@ namespace Yort.Http.Pipeline.OAuth2
 
 		private async Task<OAuth2Token> RequestToken_RefreshTokenGrant(HttpClient client, OAuth2Token token, HttpRequestMessage request)
 		{
-			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
+			using (var creds = await _Settings.ClientCredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
 				var content = new System.Net.Http.MultipartFormDataContent();
 				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.RefreshToken), "grant_type");
@@ -233,7 +232,7 @@ namespace Yort.Http.Pipeline.OAuth2
 
 		private async Task<OAuth2Token> RequestToken_AuthorizationCodeGrant(HttpClient client, HttpRequestMessage request)
 		{
-			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
+			using (var creds = await _Settings.ClientCredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
 				var authCodeUrlBuilder = new UriBuilder(_Settings.AuthorizeUrl);
 				string state = _Settings?.State?.Invoke(request);
@@ -275,7 +274,7 @@ namespace Yort.Http.Pipeline.OAuth2
 			};
 
 			HttpResponseMessage tokenResponse = null;
-			using (var creds = await _Settings.CredentialProvider.GetCredentials().ConfigureAwait(false))
+			using (var creds = await _Settings.ClientCredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
 				var encodedCredentials = StringToBase64String(creds.Identifier + ":" + creds.Secret);
 				tokenRequestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", encodedCredentials);
@@ -304,10 +303,18 @@ namespace Yort.Http.Pipeline.OAuth2
 
 			if (tokenResponse.IsSuccessStatusCode)
 			{
-				var tokenTypeKey = Newtonsoft.Json.Linq.JObject.Parse(responseContent)["token_type"].ToString();
+				//Not all servers return a token type.
+				Type tokenType = null;
+				var tokenTypeRaw = Newtonsoft.Json.Linq.JObject.Parse(responseContent)["token_type"];
+				if (tokenTypeRaw == null)
+					tokenType = typeof(OAuth2Token);
+				else
+				{
+					var tokenTypeKey = tokenTypeRaw.ToString();
 
-				if (!_Settings.SupportedTokenTypes.ContainsKey(tokenTypeKey)) throw new NotSupportedException($"The token type {tokenTypeKey} returned by the server is not supported by this client.");
-				var tokenType = _Settings.SupportedTokenTypes[tokenTypeKey];
+					if (!_Settings.SupportedTokenTypes.ContainsKey(tokenTypeKey)) throw new NotSupportedException($"The token type {tokenTypeKey} returned by the server is not supported by this client.");
+					tokenType = _Settings.SupportedTokenTypes[tokenTypeKey];
+				}
 
 				var tokenData = (OAuth2Token)JsonConvert.DeserializeObject(responseContent, tokenType);
 

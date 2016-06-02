@@ -36,6 +36,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithFullTests\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;RunTestsWithExternalDependencies</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -81,6 +90,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OAuth2SettingsTests.cs" />
+    <Compile Include="OAuth2TokenTests.cs" />
     <Compile Include="ThrottledConcurrentRequestHandlerTests.cs" />
     <Compile Include="OrRequestConditionTests.cs" />
     <Compile Include="AndRequestConditionTests.cs" />

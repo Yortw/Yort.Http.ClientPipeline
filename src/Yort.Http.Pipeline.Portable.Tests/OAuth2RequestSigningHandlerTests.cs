@@ -12,10 +12,36 @@ namespace Yort.Http.Pipeline.Portable.Tests
 	[TestClass]
 	public class OAuth2RequestSigningHandlerTests
 	{
+
+		#region Constructors
+
 		[TestMethod]
 		[TestCategory("MessageHandlers")]
 		[TestCategory(nameof(OAuth2RequestSigningHandler))]
-		public async Task OAuth2RequestSigningHandler_CanSignRequests()
+		[ExpectedException(typeof(System.ArgumentNullException))]
+		public void OAuth2RequestSigningHandler_Constructor_ThrowsOnNullSettings()
+		{
+			var handler = new OAuth2RequestSigningHandler(null);
+		}
+
+		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(OAuth2RequestSigningHandler))]
+		[ExpectedException(typeof(System.InvalidOperationException))]
+		public void OAuth2RequestSigningHandler_Constructor_ThrowsOnInvalidSettings()
+		{
+			var settings = new OAuth2Settings();
+			var handler = new OAuth2RequestSigningHandler(settings);
+		}
+
+		#endregion
+
+#if RunTestsWithExternalDependencies
+		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(OAuth2RequestSigningHandler))]
+		[TestCategory("TestsWithExternaDependencies")]
+		public async Task OAuth2RequestSigningHandler_CanSignRequestsUsingNonInteractiveJsonResponse()
 		{
 			var credentials = new SimpleCredentials()
 			{
@@ -28,7 +54,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 				AccessTokenUrl = new Uri(TestSecrets.OAuth2AccessTokenUrl),
 				AuthorizeUrl = new Uri(TestSecrets.OAuth2AuthorisationUrl),
 				RedirectUrl = new Uri(TestSecrets.OAuth2RedirectUrl),
-				CredentialProvider = new SimpleCredentialProvider(credentials),
+				ClientCredentialProvider = new SimpleCredentialProvider(credentials),
 				Scope = "master_all",
 				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
 				RequestSigningMethod = OAuth2HttpRequestSigningMethod.UrlQuery,
@@ -42,8 +68,76 @@ namespace Yort.Http.Pipeline.Portable.Tests
 			var result2 = await client.GetAsync(TestSecrets.OAuth2TestUrl2);
 			result2.EnsureSuccessStatusCode();
 			var content = await result2.Content.ReadAsStringAsync();
-			
-
 		}
+#endif
+
+		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(OAuth2RequestSigningHandler))]
+		public async Task OAuth2RequestSigningHandler_RequestsTokenThenSignsRequest()
+		{
+			var mockHandler = new MockMessageHandler();
+			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Token"), new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) });
+			var mockResponse = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Redirect) { Content = new System.Net.Http.StringContent("Normall this is a web page the user logs into, but this test is automated and skips that.", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+			mockResponse.Headers.Location = new Uri("http://testsite.com/AuthComplete?code=28770506516186843330");
+			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Authorize"), mockResponse);
+
+			var tokenIssuingHandler = new MockResponseHandler();
+			tokenIssuingHandler.CanHandleRequest = (request) => { return request.Method.Method == "POST" && request.RequestUri.ToString() == "http://testsite.com/Token"; };
+			tokenIssuingHandler.HandleRequest = async (request) =>
+			{
+				var content = request.Content as System.Net.Http.MultipartFormDataContent;
+				if (content == null) return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+
+				var codeContent = (from c in content where c.Headers.ContentDisposition.Name == "code" select c).FirstOrDefault();
+				if (codeContent == null)
+					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+
+				if (await codeContent.ReadAsStringAsync() != "28770506516186843330")
+					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+
+				return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("{ token_type: \"Bearer\", access_token: \"123\", expires_in: \"3600\", refresh_token: \"456\" }", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+			};
+			mockHandler.AddDynamicResponse(tokenIssuingHandler);
+
+			var authCheckingHandler = new MockResponseHandler();
+			authCheckingHandler.CanHandleRequest = (request) => { return request.RequestUri.ToString() == "http://testsite.com/TestEndpoint"; };
+			authCheckingHandler.HandleRequest = (request) =>
+			{
+				if (request.Headers.Authorization == null || request.Headers.Authorization.Scheme != "Bearer" || request.Headers.Authorization.Parameter != "123")
+					return Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized));
+
+				return Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("Yay! You're authed.") });
+			};
+			mockHandler.AddDynamicResponse(authCheckingHandler);
+
+			var credentials = new SimpleCredentials()
+			{
+				Identifier = "987654321",
+				Secret = "abcdefghilmnopqrstuvzabc"
+			};
+
+			var settings = new OAuth2.OAuth2Settings()
+			{
+				CreateHttpClient = () => new System.Net.Http.HttpClient(mockHandler),
+				AccessTokenUrl = new Uri("http://testsite.com/Token"),
+				AuthorizeUrl = new Uri("http://testsite.com/Authorize"),
+				RedirectUrl = new Uri("http://testsite.com/AuthComplete"),
+				ClientCredentialProvider = new SimpleCredentialProvider(credentials),
+				Scope = "master_all",
+				GrantType = OAuth2.OAuth2GrantTypes.AuthorizationCode,
+				RequestSigningMethod = OAuth2HttpRequestSigningMethod.AuthorizationHeader,
+				RequestAuthentication = (authuri) => {
+					return Task.FromResult(new AuthorisationCodeResponse() { AuthorisationCode = "28770506516186843330" });
+					},
+				TokenQueryStringKey = "oauth_token"
+			};
+
+			var signer = new OAuth2RequestSigningHandler(settings, mockHandler);
+			var client = new System.Net.Http.HttpClient(signer);
+			var result = await client.GetAsync("http://testsite.com/TestEndpoint");
+			result.EnsureSuccessStatusCode();
+		}
+
 	}
 }
