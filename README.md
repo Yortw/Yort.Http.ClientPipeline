@@ -1,10 +1,10 @@
 # Yort.Http.Pipeline
 
 ## This sausage is still being made. You probably don't want to look at what's going on here until it's 'done'.
-On the other hand, if you really want something here then go for it (see [license](license.md)). Just expect breaking changes, bugs and other problems as development continues. Pull requests appreciated.
+On the other hand, if you really want something here then go for it (see [license](https://github.com/Yortw/Yort.Http.Pipeline/blob/master/LICENSE.md)). Just expect breaking changes, bugs and other problems as development continues. Pull requests appreciated.
 
 ## What is it?
-A collection of handlers, filters and stuff related to System.Net.Http.HttpClient and Windows.Web.Http.HttpClient.
+A collection of handlers, filters, extenions and other stuff related to System.Net.Http.HttpClient and Windows.Web.Http.HttpClient.
 
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/Yort.Http.Pipeline/blob/master/LICENSE.md) 
 
@@ -19,4 +19,6 @@ Currently;
 * Portable Class Libraries (Profile328)
 
 ## Build Status
+
+[![Build status](https://ci.appveyor.com/api/projects/status/k9imok6mnts96wc3?svg=true)](https://ci.appveyor.com/project/Yortw/yort-http-pipeline)
 
