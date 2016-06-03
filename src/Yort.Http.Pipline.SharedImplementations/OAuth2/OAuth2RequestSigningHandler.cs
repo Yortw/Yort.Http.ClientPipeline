@@ -208,7 +208,7 @@ namespace Yort.Http.Pipeline.OAuth2
 				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.RefreshToken), "grant_type");
 				content.Add(new System.Net.Http.StringContent(token.RefreshToken), "refresh_token");
 				content.Add(new System.Net.Http.StringContent(_Settings.Scope), "scope");
-				var state = _Settings.State(request);
+				var state = _Settings?.State?.Invoke(request);
 				if (state != null)
 					content.Add(new System.Net.Http.StringContent(state), "state");
 
@@ -323,7 +323,28 @@ namespace Yort.Http.Pipeline.OAuth2
 			}
 			else
 			{
-				var tokenError = JsonConvert.DeserializeObject<OAuth2TokenError>(responseContent);
+				OAuth2TokenError tokenError = null;
+				if (tokenResponse?.Content?.Headers?.ContentType?.MediaType == MediaTypes.TextHtml)
+				{
+					tokenError = new OAuth2TokenError()
+					{
+						ErrorDescription = responseContent
+					};
+				}
+				else
+				{
+					try
+					{
+						tokenError = JsonConvert.DeserializeObject<OAuth2TokenError>(responseContent);
+					}
+					catch
+					{
+						tokenError = new OAuth2TokenError()
+						{
+							ErrorDescription = responseContent
+						};
+					}
+				}
 				throw new OAuth2Exception(tokenError);
 			}
 		}
