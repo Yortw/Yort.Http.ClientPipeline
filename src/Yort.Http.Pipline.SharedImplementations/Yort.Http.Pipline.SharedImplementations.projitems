@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Credentials\SimpleCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\CompressedRequestHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\DynamicRequestHeaderHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\InsecureRedirectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\MockMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\RetryHandlerBase.cs" />

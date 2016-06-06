@@ -90,6 +90,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DynamicRequestHeaderHandlerTests.cs" />
     <Compile Include="OAuth2SettingsTests.cs" />
     <Compile Include="OAuth2TokenTests.cs" />
     <Compile Include="ThrottledConcurrentRequestHandlerTests.cs" />

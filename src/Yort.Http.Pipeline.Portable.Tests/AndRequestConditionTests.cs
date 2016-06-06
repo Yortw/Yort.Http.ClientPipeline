@@ -39,7 +39,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 		[TestCategory("Conditions")]
 		public void AndRequestCondition_ShouldProcess_ReturnsTrueIfAllChildConditionsPass()
 		{
-			var condition1 = new AuthorityHttpRequestCondition();
+			var condition1 = new AuthorityRequestCondition();
 			condition1.AddAuthority("sometestsite");
 
 			var condition2 = new RequestContentMediaTypeCondition();
@@ -58,7 +58,7 @@ namespace Yort.Http.Pipeline.Portable.Tests
 		[TestCategory("Conditions")]
 		public void AndRequestCondition_ShouldProcess_ReturnsFalseIfAnyChildConditionDoesNotPass()
 		{
-			var condition1 = new AuthorityHttpRequestCondition();
+			var condition1 = new AuthorityRequestCondition();
 			condition1.AddAuthority("sometestsite");
 
 			var condition2 = new RequestContentMediaTypeCondition();
