@@ -14,7 +14,20 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">Any CPU</Platform>
+		<ProjectGuid>{D841C066-8418-47DF-9AE3-6E3A62501ADC}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Yort.Http.Pipeline</RootNamespace>
+		<AssemblyName>Yort.Http.Pipeline</AssemblyName>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<NuGetPackageImportStamp>
+		</NuGetPackageImportStamp>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,7 +39,19 @@
     <CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\Yort.Http.Pipeline.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKEX;SUPPORTS_SERIALISATION</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<RunCodeAnalysis>true</RunCodeAnalysis>
+		<CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+		<DocumentationFile>bin\Debug\Yort.Http.Pipeline.XML</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,7 +62,18 @@
     <CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Yort.Http.Pipeline.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|AnyCPU'">
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKEX;SUPPORTS_SERIALISATION</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<RunCodeAnalysis>true</RunCodeAnalysis>
+		<CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+		<DocumentationFile>bin\Release\Yort.Http.Pipeline.XML</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\DebugWithFullTests\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKEX;SUPPORTS_SERIALISATION</DefineConstants>
@@ -48,7 +84,18 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|Any CPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\DebugWithFullTests\</OutputPath>
+		<DefineConstants>CODE_ANALYSIS;TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKEX;SUPPORTS_SERIALISATION</DefineConstants>
+		<DocumentationFile>bin\Debug\Yort.Http.Pipeline.XML</DocumentationFile>
+		<DebugType>full</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<RunCodeAnalysis>true</RunCodeAnalysis>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisRuleSet>..\Yort.Http.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
