@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Yort.HttpClient.Pipeline.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\Yort.HttpClient.Pipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
     <DebugSymbols>true</DebugSymbols>
