@@ -21,4 +21,3 @@ Currently;
 ## Build Status
 
 [![Build status](https://ci.appveyor.com/api/projects/status/k9imok6mnts96wc3?svg=true)](https://ci.appveyor.com/project/Yortw/yort-http-pipeline)
-
