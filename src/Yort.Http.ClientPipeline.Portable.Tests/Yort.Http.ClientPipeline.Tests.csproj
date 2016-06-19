@@ -137,7 +137,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Yort.Http.ClientPipeline.Net45\Yort.Http.ClientPipeline.Net45.csproj">
       <Project>{3d7f2fd6-7eae-4a4d-8368-30b886c59ace}</Project>
-      <Name>Yort.Http.Pipeline.Net45</Name>
+      <Name>Yort.Http.ClientPipeline.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
