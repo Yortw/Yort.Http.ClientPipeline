@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D424D5A0-1A70-4997-98C1-44C1845B4E91}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Yort.Http.ClientPipeline</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>Yort.Http.ClientPipeline</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DocumentationFile>bin\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DocumentationFile>bin\Release\Yort.Http.ClientPipeline.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|AnyCPU'">
+    <DocumentationFile>bin\AppStore\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|Any CPU'">
+    <DocumentationFile>bin\AppStore\Yort.Http.ClientPipeline.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;DEBUG;CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|Any CPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;DEBUG;CODE_ANALYSIS;__UNIFIED__;__MOBILE__;__IOS__;SUPPORTS_SERIALISATION</DefineConstants>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml">
+      <Link>Properties\CodeAnalysisDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="..\Yort.Http.ClientPipeline.SharedImplementations\Yort.Http.ClientPipeline.SharedImplementations.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>

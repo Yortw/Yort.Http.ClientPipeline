@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C9882F35-7885-46B9-8D07-24DA6651101F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yort.Http.ClientPipeline</RootNamespace>
+    <AssemblyName>Yort.Http.ClientPipeline</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x86\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\ARM\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\ARM\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x64\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x64\Release\Yort.Http.ClientPipeline.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|Any CPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\x86\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\ARM\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithFullTests|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\DebugWithFullTests\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\x64\Debug\Yort.Http.ClientPipeline.xml</DocumentationFile>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Yort.Http.ClientPipeline.CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Conditions\AndWebRequestCondition.cs" />
+    <Compile Include="Conditions\AuthorityWebRequestCondition.cs" />
+    <Compile Include="Filters\CompressedRequestFilter.cs" />
+    <Compile Include="Filters\DynamicRequestHeaderHandler.cs" />
+    <Compile Include="Filters\ThrottledConcurrentRequestsFilter.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IWebHttpRequestCondition.cs" />
+    <Compile Include="Conditions\OrWebRequestCondition.cs" />
+    <Compile Include="Conditions\WebRequestContentMediaTypeCondition.cs" />
+    <Compile Include="WebHttpHeaderExtensions.cs" />
+    <Compile Include="RetryFilterBase.cs" />
+    <Compile Include="Filters\TooManyRequestsRetryFilter.cs" />
+    <Compile Include="Filters\ServiceUnavailableRetryFilter.cs" />
+    <Compile Include="WebHttpClientExtensions.cs" />
+    <Compile Include="WebHttpStatusCodeExtensions.cs" />
+    <Compile Include="Filters\InsecureRedirectionFilter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Yort.Http.ClientPipeline.Uwp.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml">
+      <Link>Properties\CodeAnalysisDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <Import Project="..\Yort.Http.ClientPipeline.SharedImplementations\Yort.Http.ClientPipeline.SharedImplementations.projitems" Label="Shared" />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

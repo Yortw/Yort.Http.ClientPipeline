@@ -1,4 +1,4 @@
-# Yort.Http.Pipeline
+# Yort.Http.ClientPipeline
 
 ## This sausage is still being made. You probably don't want to look at what's going on here until it's 'done'.
 On the other hand, if you really want something here then go for it (see [license](https://github.com/Yortw/Yort.Http.Pipeline/blob/master/LICENSE.md)). Just expect breaking changes, bugs and other problems as development continues. Pull requests appreciated.

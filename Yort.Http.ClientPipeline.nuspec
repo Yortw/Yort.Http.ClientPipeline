@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>Yort.Http.ClientPipeline</id>
+        <version>1.0.0</version>
+        <title>Yort.Http.ClientPipeline</title>
+        <authors>Yortw</authors>
+        <owners>Yortw</owners>
+        <licenseUrl>https://github.com/Yortw/Yort.Http.ClientPipeline/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/Yortw/Yort.Http.ClientPipeline</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/Yortw/Yort.Http.ClientPipeline/master/icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A collection of handlers, filters and HttpClient related stuff.</description>
+        <summary />
+        <tags>httpclient http handler filter .net 4 4.5 winrt uwp android ios</tags>
+        <dependencies>
+            <group>
+                <dependency id="Newtonsoft.Json" version="6.0.8" />
+            </group>
+            <group targetFramework=".NETFramework4.0">
+                <dependency id="Microsoft.Net.Http" version="2.2.29" />
+                <dependency id="Microsoft.Bcl" version="1.1.10" />
+                <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+                <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="src\Yort.Http.ClientPipeline.Android\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\MonoAndroid\Yort.Http.ClientPipeline.dll" />
+        <file src="src\Yort.Http.ClientPipeline.Net40\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\net40\Yort.Http.ClientPipeline.dll" />
+        <file src="src\Yort.Http.ClientPipeline.Net45\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\net45\Yort.Http.ClientPipeline.dll" />
+        <file src="src\Yort.Http.ClientPipeline.Portable\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\portable-net4+sl5+wp8+win8\Yort.Http.ClientPipeline.dll" />
+        <file src="src\Yort.Http.ClientPipeline.Uwp\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\uap10.0\Yort.Http.ClientPipeline.dll" />
+        <file src="src\Yort.Http.ClientPipeline.iOS\bin\Release\Yort.Http.ClientPipeline.dll" target="lib\Xamarin.iOS10\Yort.Http.ClientPipeline.dll" />
+    </files>
+</package>
