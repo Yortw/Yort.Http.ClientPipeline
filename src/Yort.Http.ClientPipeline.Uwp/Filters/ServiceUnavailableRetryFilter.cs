@@ -13,7 +13,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 namespace Yort.Http.ClientPipeline
 {
 	/// <summary>
-	/// A delegating filter that automatically waits and retrieves when a 503 Service Unavailable response is received.
+	/// A delegating filter that automatically waits and retries when a 503 Service Unavailable response is received.
 	/// </summary>
 	public sealed class ServiceUnavailableRetryFilter : RetryFilterBase
 	{

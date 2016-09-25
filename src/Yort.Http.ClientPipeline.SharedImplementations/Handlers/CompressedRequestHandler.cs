@@ -27,7 +27,7 @@ namespace Yort.Http.ClientPipeline
 		/// <param name="innerHandler">The next handler in the pipeline to pass requests through.</param>
 		public CompressedRequestHandler(System.Net.Http.HttpMessageHandler innerHandler) : this(innerHandler, null)
 		{
-		}
+		}	
 
 		/// <summary>
 		/// Full constructor.

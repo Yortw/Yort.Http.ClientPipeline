@@ -16,7 +16,7 @@ namespace Yort.Http.ClientPipeline.Uwp.Tests
 		[TestCategory("MessageHandlers")]
 		public void InsecureRedirectionFilter_Constructor_ThrowsOnNullInnerHandler()
 		{
-			Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+			Assert.ThrowsException<ArgumentNullException>(() =>
 			{
 				var handler = new InsecureRedirectionFilter(null);
 			});
@@ -46,10 +46,7 @@ namespace Yort.Http.ClientPipeline.Uwp.Tests
 		[TestCategory("MessageHandlers")]
 		public void InsecureRedirectionFilter_Constructor_ConstructsOkWithNullRedirectCache()
 		{
-			Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-			{
-				var handler = new InsecureRedirectionFilter(new Windows.Web.Http.Filters.HttpBaseProtocolFilter { AllowAutoRedirect = false }, 10, null);
-			});
+			var handler = new InsecureRedirectionFilter(new Windows.Web.Http.Filters.HttpBaseProtocolFilter { AllowAutoRedirect = false }, 10, null);
 		}
 
 		#endregion
@@ -65,8 +62,8 @@ namespace Yort.Http.ClientPipeline.Uwp.Tests
 			var client = new Windows.Web.Http.HttpClient(handler);
 			var result = await client.GetAsync(requestUri);
 
-			Assert.AreEqual(System.Net.HttpStatusCode.OK, result.StatusCode);
-			Assert.AreEqual(requestUri, result.RequestMessage.RequestUri.ToString());
+			Assert.AreEqual(Windows.Web.Http.HttpStatusCode.Ok, result.StatusCode);
+			Assert.AreEqual("http://www.abc.net.au/news/2016-03-05/scott-kelly-spaceflight-leaves-astronaut-feeling-sore/7223312", result.RequestMessage.RequestUri.ToString());
 		}
 	}
 }

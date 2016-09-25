@@ -110,13 +110,17 @@ namespace Yort.Http.ClientPipeline
 							if (result.StatusCode.IsPermanentRedirect())
 								_RedirectCache.AddOrUpdateRedirect(request.RequestUri, result.Headers.Location);
 
-							request.RequestUri = result.Headers.Location;
-							result = await _InnerFilter.SendRequestAsync(request).AsTask().ConfigureAwait(false);
+							var request2 = new HttpRequestMessage(request.Method, result.Headers.Location);
+							WebHttpHeaderExtensions.CopyHeadersTo(request.Headers, request2.Headers);
+
+							result = await _InnerFilter.SendRequestAsync(request2).AsTask().ConfigureAwait(false);
 						}
 						redirects++;
 					}
 					else
 						break;
+
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 				return result;
 			});

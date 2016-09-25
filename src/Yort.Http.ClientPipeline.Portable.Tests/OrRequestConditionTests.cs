@@ -45,12 +45,12 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			var condition2 = new RequestContentMediaTypeCondition();
 			condition2.AddContentMediaType(MediaTypes.TextPlain);
 
-			var andCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
+			var orCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
 
 			var testRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Post, "http://sometestsite/testendpoint");
 			testRequest.Content = new System.Net.Http.StringContent("AAAABBBBCCCCDDD", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson);
 
-			Assert.IsTrue(andCondition.ShouldProcess(testRequest));
+			Assert.IsTrue(orCondition.ShouldProcess(testRequest));
 		}
 
 		[TestMethod]
@@ -64,12 +64,12 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			var condition2 = new RequestContentMediaTypeCondition();
 			condition2.AddContentMediaType(MediaTypes.TextPlain);
 
-			var andCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
+			var orCondition = new OrRequestCondition(new IRequestCondition[] { condition1, condition2 });
 
 			var testRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Post, "http://someothertestsite/testendpoint");
 			testRequest.Content = new System.Net.Http.StringContent("AAAABBBBCCCCDDD", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson);
 
-			Assert.IsFalse(andCondition.ShouldProcess(testRequest));
+			Assert.IsFalse(orCondition.ShouldProcess(testRequest));
 		}
 
 		#endregion
