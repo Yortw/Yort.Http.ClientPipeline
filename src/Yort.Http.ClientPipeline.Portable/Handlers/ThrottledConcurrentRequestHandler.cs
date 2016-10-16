@@ -20,7 +20,7 @@ namespace Yort.Http.ClientPipeline
 		/// </summary>
 		/// <param name="innerHandler">The next handler in the pipeline to pass the request onto.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown if <paramref name="innerHandler"/> parameter is null.</exception>
-		public ThrottledConcurrentRequestHandler(System.Net.Http.HttpMessageHandler innerHandler) : this(DefaultMaxRequests, innerHandler)
+		public ThrottledConcurrentRequestHandler(System.Net.Http.HttpMessageHandler innerHandler) : this(4, innerHandler)
 		{
 			Helper.Throw();
 		}
@@ -43,7 +43,7 @@ namespace Yort.Http.ClientPipeline
 		/// <param name="request">The request to pass on.</param>
 		/// <param name="cancellationToken">The cancellation token that can be used to cancel the request.</param>
 		/// <returns></returns>
-		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			Helper.Throw();
 			return null;
