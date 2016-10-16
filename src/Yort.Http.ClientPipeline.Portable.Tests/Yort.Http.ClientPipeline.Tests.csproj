@@ -117,19 +117,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DynamicRequestHeaderHandlerTests.cs" />
-    <Compile Include="OAuth2SettingsTests.cs" />
-    <Compile Include="OAuth2TokenTests.cs" />
-    <Compile Include="ThrottledConcurrentRequestHandlerTests.cs" />
-    <Compile Include="OrRequestConditionTests.cs" />
-    <Compile Include="AndRequestConditionTests.cs" />
-    <Compile Include="RequestCompressingHandlerTests.cs" />
-    <Compile Include="InsecureRedirectionHandlerTests.cs" />
-    <Compile Include="MockMessageHandlerTests.cs" />
-    <Compile Include="OAuth2RequestSigningHandlerTests.cs" />
+    <Compile Include="Handlers\DynamicRequestHeaderHandlerTests.cs" />
+    <Compile Include="Handlers\ServiceUnavailableRetryHandlerTests.cs" />
+    <Compile Include="OAuth2\OAuth2SettingsTests.cs" />
+    <Compile Include="OAuth2\OAuth2TokenTests.cs" />
+    <Compile Include="Handlers\ThrottledConcurrentRequestHandlerTests.cs" />
+    <Compile Include="Conditions\OrRequestConditionTests.cs" />
+    <Compile Include="Conditions\AndRequestConditionTests.cs" />
+    <Compile Include="Handlers\CompressedRequestHandlerTests.cs" />
+    <Compile Include="Handlers\InsecureRedirectionHandlerTests.cs" />
+    <Compile Include="Handlers\MockMessageHandlerTests.cs" />
+    <Compile Include="OAuth2\OAuth2RequestSigningHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSecrets.cs" />
-    <Compile Include="TooManyRequestsRetryHandlerTests.cs" />
+    <Compile Include="Handlers\TooManyRequestsRetryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
