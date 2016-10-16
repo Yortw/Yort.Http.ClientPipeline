@@ -96,7 +96,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			var dynamicHeaders = new Dictionary<string, Func<string>>();
 			dynamicHeaders.Add("TestHeader", () => System.Guid.NewGuid().ToString());
 			var handler = new DynamicRequestHeaderHandler(dynamicHeaders, filter, mockHandler);
-			var client = new HttpClient(handler);
+			var client = new System.Net.Http.HttpClient(handler);
 
 			var result = await client.GetAsync("http://sometestsite.com/SomeEndPoint");
 
@@ -107,7 +107,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 
 		#region Private Methods
 
-		private static async Task TestDynamicHeadersApplied(MockMessageHandler mockHandler, HttpClient client)
+		private static async Task TestDynamicHeadersApplied(MockMessageHandler mockHandler, System.Net.Http.HttpClient client)
 		{
 			var result = await client.GetAsync("http://sometestsite.com/SomeEndPoint");
 

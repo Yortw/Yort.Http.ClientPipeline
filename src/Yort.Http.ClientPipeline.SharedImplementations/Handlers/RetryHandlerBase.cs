@@ -87,7 +87,7 @@ namespace Yort.Http.ClientPipeline
 		}
 
 		/// <summary>
-		/// Abstract method called to determine if a retry is neccesary.
+		/// Abstract method called to determine if a retry is necessary.
 		/// </summary>
 		/// <param name="response">A <see cref="HttpResponseMessage"/> to be analysed.</param>
 		/// <returns>True if the request should be retried, otherwise false.</returns>
@@ -99,7 +99,7 @@ namespace Yort.Http.ClientPipeline
 
 		private async Task<bool> WaitIfNotTooLong(RetryConditionHeaderValue retryAfter)
 		{
-			var timeToWait = DefaultMaxRequestWaitTime;
+			var timeToWait = _MaxPerRequestWaitTime;
 			if (retryAfter != null)
 			{
 				if (retryAfter.Date != null)

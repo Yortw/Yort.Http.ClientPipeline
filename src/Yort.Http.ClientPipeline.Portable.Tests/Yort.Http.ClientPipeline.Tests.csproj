@@ -129,6 +129,7 @@
     <Compile Include="OAuth2RequestSigningHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSecrets.cs" />
+    <Compile Include="TooManyRequestsRetryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
