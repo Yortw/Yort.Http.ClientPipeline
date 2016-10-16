@@ -16,7 +16,7 @@ namespace Yort.Http.ClientPipeline
 		string Identifier { get; set; }
 
 		/// <summary>
-		/// The password, consumer secrent, access token secret or other secret part of the credential.
+		/// The password, consumer secret, access token secret or other secret part of the credential.
 		/// </summary>
 		string Secret { get; set; }
 	}

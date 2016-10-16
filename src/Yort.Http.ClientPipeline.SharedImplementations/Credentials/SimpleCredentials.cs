@@ -24,7 +24,7 @@ namespace Yort.Http.ClientPipeline
 		}
 
 		/// <summary>
-		/// The password, consumer secrent, access token secret or other secret part of the credential.
+		/// The password, consumer secret, access token secret or other secret part of the credential.
 		/// </summary>
 		public string Secret
 		{

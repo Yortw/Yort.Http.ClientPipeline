@@ -29,9 +29,9 @@ namespace Yort.Http.ClientPipeline
 		}
 
 		/// <summary>
-		/// Returns the credentials provided via the constructoor.
+		/// Returns the credentials provided via the constructor.
 		/// </summary>
-		/// <returns>Returns the credentials provided via the constructoor.</returns>
+		/// <returns>Returns the credentials provided via the constructor.</returns>
 		public Task<ICredentials> GetCredentials()
 		{
 #if SUPPORTS_TASKEX
