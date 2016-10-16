@@ -100,10 +100,12 @@
     <Compile Include="Credentials\SimpleCredentialProvider.cs" />
     <Compile Include="Credentials\SimpleCredentials.cs" />
     <Compile Include="Handlers\CompressedRequestHandler.cs" />
+    <Compile Include="Handlers\DynamicRequestHeaderHandler.cs" />
     <Compile Include="Handlers\InsecureRedirectionHandler.cs" />
     <Compile Include="Handlers\MockMessageHandler.cs" />
     <Compile Include="Handlers\RetryHandlerBase.cs" />
     <Compile Include="Handlers\ServiceUnavailableRetryHandler.cs" />
+    <Compile Include="Handlers\ThrottledConcurrentRequestHandler.cs" />
     <Compile Include="Handlers\TooManyRequestsRetryHandler.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="HttpClientExtensions.cs" />

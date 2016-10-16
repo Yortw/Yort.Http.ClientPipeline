@@ -12,7 +12,7 @@ namespace Yort.Http.ClientPipeline
 		/// <summary>
 		/// Returns a boolean indicating if the specified <paramref name="requestMessage"/> should be modified/processed/handled.
 		/// </summary>
-		/// <param name="requestMessage">The <see cref="System.Net.Http.HttpRequestMessage"/> to analyse.</param>
+		/// <param name="requestMessage">The <see cref="System.Net.Http.HttpRequestMessage"/> to analyze.</param>
 		/// <returns>True if the request should be handled by calling code, otherwise false.</returns>
 		bool ShouldProcess(System.Net.Http.HttpRequestMessage requestMessage);
 	}
