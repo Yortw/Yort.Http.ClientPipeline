@@ -117,6 +117,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Conditions\RequestContentMediaTypeConditionTests.cs" />
+    <Compile Include="Conditions\AuthorityRequestConditionTests.cs" />
     <Compile Include="Handlers\DynamicRequestHeaderHandlerTests.cs" />
     <Compile Include="Handlers\ServiceUnavailableRetryHandlerTests.cs" />
     <Compile Include="OAuth2\OAuth2SettingsTests.cs" />
@@ -141,6 +143,9 @@
       <Project>{3d7f2fd6-7eae-4a4d-8368-30b886c59ace}</Project>
       <Name>Yort.Http.ClientPipeline.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Credentials\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

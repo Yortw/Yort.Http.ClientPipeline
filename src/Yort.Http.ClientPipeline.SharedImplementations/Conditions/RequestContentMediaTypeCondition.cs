@@ -27,12 +27,12 @@ namespace Yort.Http.ClientPipeline
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
-		/// <param name="allowedAuthorities">An enumerable of media types that are allowed by this condition.</param>
-		public RequestContentMediaTypeCondition(IEnumerable<string> allowedAuthorities) : this()
+		/// <param name="allowedMediaTypes">An enumerable of media types that are allowed by this condition.</param>
+		public RequestContentMediaTypeCondition(IEnumerable<string> allowedMediaTypes) : this()
 		{
-			if (allowedAuthorities == null) return;
+			if (allowedMediaTypes == null) return;
 
-			foreach (var item in allowedAuthorities)
+			foreach (var item in allowedMediaTypes)
 			{
 				_AllowedMediaTypes.AddOrUpdate(item, item, (key, oldValue) => item);
 			}
