@@ -37,6 +37,10 @@ namespace Yort.Http.ClientPipeline
 		/// </summary>
 		public void Dispose()
 		{
+			//This probably isn't useful, but it doesn't hurt and there's a tiny chance
+			//it might protect the creds under some really rare circumstances. Plus,
+			//it helps with testing.
+			this.Secret = this.Identifier = null;
 		}
 	}
 }

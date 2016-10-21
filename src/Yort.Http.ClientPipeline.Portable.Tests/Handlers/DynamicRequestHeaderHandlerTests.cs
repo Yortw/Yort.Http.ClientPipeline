@@ -60,7 +60,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			var dynamicHeaders = new Dictionary<string, Func<string>>();
 			dynamicHeaders.Add("TestHeader", () => System.Guid.NewGuid().ToString());
 			var handler = new DynamicRequestHeaderHandler(dynamicHeaders, mockHandler);
-			var client = new HttpClient(handler);
+			var client = new System.Net.Http.HttpClient(handler);
 
 			await TestDynamicHeadersApplied(mockHandler, client);
 		}
@@ -78,7 +78,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			var dynamicHeaders = new Dictionary<string, Func<string>>();
 			dynamicHeaders.Add("TestHeader", () => System.Guid.NewGuid().ToString());
 			var handler = new DynamicRequestHeaderHandler(dynamicHeaders, filter, mockHandler);
-			var client = new HttpClient(handler);
+			var client = new System.Net.Http.HttpClient(handler);
 
 			await TestDynamicHeadersApplied(mockHandler, client);
 		}
