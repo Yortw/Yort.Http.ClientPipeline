@@ -58,7 +58,7 @@ namespace Yort.Http.ClientPipeline.OAuth2
 		public string GrantType { get; set; } = OAuth2GrantTypes.AuthorizationCode;
 
 		/// <summary>
-		/// The scope of access requested.
+		/// The scope of access requested. This is typically equivalent to a set of 'permissions' requested. These are service specific, so check with the documentation for the service you are connecting to.
 		/// </summary>
 		public string Scope { get; set; }
 
