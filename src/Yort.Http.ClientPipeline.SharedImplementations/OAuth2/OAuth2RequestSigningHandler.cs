@@ -238,9 +238,9 @@ namespace Yort.Http.ClientPipeline.OAuth2
 				var authCodeUrlBuilder = new UriBuilder(_Settings.AuthorizeUrl);
 				string state = _Settings?.State?.Invoke(request);
 
-				authCodeUrlBuilder.Query = $"client_id={creds.Identifier}&redirect_uri={_Settings.RedirectUrl.ToString()}&response_type=code&scope={_Settings.Scope}";
+				authCodeUrlBuilder.Query = $"client_id={Uri.EscapeDataString(creds.Identifier)}&redirect_uri={Uri.EscapeDataString(_Settings.RedirectUrl.ToString())}&response_type=code&scope={Uri.EscapeDataString(_Settings.Scope)}";
 				if (!String.IsNullOrEmpty(state))
-					authCodeUrlBuilder.Query += "&state=" + state;
+					authCodeUrlBuilder.Query += "&state=" + Uri.EscapeDataString(state);
 
 				var authCodeResult = await _Settings.RequestAuthentication(authCodeUrlBuilder.Uri).ConfigureAwait(false);
 				if (authCodeResult == null || String.IsNullOrWhiteSpace(authCodeResult.AuthorisationCode))

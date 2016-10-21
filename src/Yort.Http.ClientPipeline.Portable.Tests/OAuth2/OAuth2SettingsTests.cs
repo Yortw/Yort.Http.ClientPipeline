@@ -34,7 +34,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 		public void OAuth2Settings_Validate_RequiresCredentialProviderForAuthorizationGrant()
 		{
 			var settings = new OAuth2Settings();
-			settings.GrantType = OAuth2GrantTypes.ClientCredentials;
+			settings.GrantType = OAuth2GrantTypes.AuthorizationCode;
 			settings.AccessTokenUrl = new Uri("http://testsite.com/access_token");
 			settings.AuthorizeUrl = new Uri("http://testsite.com/authorize");
 			settings.RedirectUrl = new Uri("http://testsite.com/redirect");

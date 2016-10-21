@@ -156,11 +156,51 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			Assert.AreEqual("Yay! You're authed.", await result.Content.ReadAsStringAsync());
 		}
 
+		[TestMethod]
+		[TestCategory("MessageHandlers")]
+		[TestCategory(nameof(OAuth2RequestSigningHandler))]
+		public async Task OAuth2RequestSigningHandler_ClientCredentialsGrant_AuthorisesOk()
+		{
+			#region Test Setup
+
+			MockMessageHandler mockHandler = SetupOAuth2MockHandler();
+
+			var credentials = new SimpleCredentials()
+			{
+				Identifier = "987654321",
+				Secret = "abcdefghilmnopqrstuvzabc"
+			};
+
+			var settings = new OAuth2Settings();
+			//Set the grant type
+			settings.GrantType = OAuth2GrantTypes.ClientCredentials;
+			//Set the credentials to use when requesting a new token
+			settings.ClientCredentialProvider = new SimpleCredentialProvider(credentials);
+
+			// Make sure token requests use our mock handler
+			settings.CreateHttpClient = () => new System.Net.Http.HttpClient(mockHandler);
+
+			//These settings are provided for all auth flows
+			settings.AccessTokenUrl = new Uri("http://testsite.com/Token");
+			settings.AuthorizeUrl = new Uri("http://testsite.com/Authorize");
+			settings.RedirectUrl = new Uri("http://testsite.com/redirect");
+
+			// Create a request signer using the config
+			var signer = new OAuth2RequestSigningHandler(settings, mockHandler);
+
+			#endregion
+
+			var client = new System.Net.Http.HttpClient(signer);
+
+			var result = await client.GetAsync("http://testsite.com/TestEndpoint");
+			result.EnsureSuccessStatusCode();
+		}
+
 		private static MockMessageHandler SetupOAuth2MockHandler()
 		{
 			var mockHandler = new MockMessageHandler();
-			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Token"), new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) });
-			var mockResponse = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Redirect) { Content = new System.Net.Http.StringContent("Normall this is a web page the user logs into, but this test is automated and skips that.", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Token"), new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent(String.Empty, System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) });
+			var mockResponse = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Redirect) { Content = new System.Net.Http.StringContent("Normally this is a web page the user logs into, but this test is automated and skips that.", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
 			mockResponse.Headers.Location = new Uri("http://testsite.com/AuthComplete?code=28770506516186843330");
 			mockHandler.AddFixedResponse(new Uri("http://testsite.com/Authorize"), mockResponse);
 
@@ -171,14 +211,31 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 				var content = request.Content as System.Net.Http.MultipartFormDataContent;
 				if (content == null) return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
-				var codeContent = (from c in content where c.Headers.ContentDisposition.Name == "code" select c).FirstOrDefault();
-				if (codeContent == null)
+				var grantTypeContent = (from c in content where c.Headers.ContentDisposition.Name == "grant_type" select c).FirstOrDefault();
+				if (grantTypeContent == null)
 					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
-				if (await codeContent.ReadAsStringAsync() != "28770506516186843330")
-					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+				var grantType = await grantTypeContent.ReadAsStringAsync().ConfigureAwait(false);
+				if (grantType == OAuth2.OAuth2GrantTypes.AuthorizationCode)
+				{
+					var codeContent = (from c in content where c.Headers.ContentDisposition.Name == "code" select c).FirstOrDefault();
+					if (codeContent == null)
+						return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
-				return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("{ token_type: \"Bearer\", access_token: \"123\", expires_in: \"3600\", refresh_token: \"456\" }", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+					if (await codeContent.ReadAsStringAsync() != "28770506516186843330")
+						return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+
+					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("{ token_type: \"Bearer\", access_token: \"123\", expires_in: \"3600\", refresh_token: \"456\" }", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+				}
+				else if (grantType == OAuth2GrantTypes.ClientCredentials)
+				{
+					if (request.Headers.Authorization.Scheme == "Basic" && request.Headers.Authorization.Parameter == "OTg3NjU0MzIxOmFiY2RlZmdoaWxtbm9wcXJzdHV2emFiYw==")
+					{
+						return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("{ token_type: \"Bearer\", access_token: \"123\", expires_in: \"3600\", refresh_token: \"456\" }", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
+					}
+				}
+
+				return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 			};
 			mockHandler.AddDynamicResponse(tokenIssuingHandler);
 
