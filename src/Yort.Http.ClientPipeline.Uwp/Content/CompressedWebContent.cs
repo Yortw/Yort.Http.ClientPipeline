@@ -223,12 +223,31 @@ namespace Yort.Http.ClientPipeline
 		/// </summary>
 		public void Dispose()
 		{
-			if (originalContent != null)
+			try
 			{
-				originalContent?.Dispose();
-				originalContent = null;
+				Dispose(true);
+			}
+			finally
+			{
+				GC.SuppressFinalize(this);
+			}
+		}
 
-				bufferedData = null;
+		/// <summary>
+		/// Disposes this instance and all internal resources.
+		/// </summary>
+		/// <param name="isDisposing">True if this method is being called explicitly from user code, otherwise false if it being called from the finalizer by the GC.</param>
+		protected virtual void Dispose(bool isDisposing)
+		{
+			if (isDisposing)
+			{
+				if (originalContent != null)
+				{
+					originalContent?.Dispose();
+					originalContent = null;
+
+					bufferedData = null;
+				}
 			}
 		}
 
