@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Conditions\IRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditions\OrRequestCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditions\RequestContentMediaTypeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\CompressedContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Credentials\ICredentialProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Credentials\ICredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Credentials\SimpleCredentialProvider.cs" />

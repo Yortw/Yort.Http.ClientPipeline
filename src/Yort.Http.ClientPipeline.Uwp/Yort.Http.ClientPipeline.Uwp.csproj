@@ -226,6 +226,7 @@
   <ItemGroup>
     <Compile Include="Conditions\AndWebRequestCondition.cs" />
     <Compile Include="Conditions\AuthorityWebRequestCondition.cs" />
+    <Compile Include="Content\CompressedWebContent.cs" />
     <Compile Include="Filters\CompressedRequestFilter.cs" />
     <Compile Include="Filters\DynamicRequestHeaderHandler.cs" />
     <Compile Include="Filters\ThrottledConcurrentRequestsFilter.cs" />

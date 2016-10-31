@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Conditions\RequestContentMediaTypeConditionTests.cs" />
     <Compile Include="Conditions\AuthorityRequestConditionTests.cs" />
+    <Compile Include="Content\CompressedContentTests.cs" />
     <Compile Include="Credentials\SimpleCredentialsProviderTests.cs" />
     <Compile Include="Credentials\SimpleCredentialsTests.cs" />
     <Compile Include="Handlers\DynamicRequestHeaderHandlerTests.cs" />
