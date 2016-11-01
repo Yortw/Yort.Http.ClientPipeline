@@ -56,6 +56,7 @@ namespace Yort.Http.ClientPipeline
 			originalContent.CopyHeadersTo(this);
 
 			headers.ContentEncoding.Add(new HttpContentCodingHeaderValue(encodingType));
+			headers.ContentLength = null;
 		}
 
 		/// <summary>
@@ -87,6 +88,7 @@ namespace Yort.Http.ClientPipeline
 					
 				// Report progress.
 				progress.Report(bufferedData.Length);
+				headers.ContentLength = bufferedData.Length;
 
 				// Just return the size in bytes.
 				return bufferedData.Length;
@@ -131,20 +133,28 @@ namespace Yort.Http.ClientPipeline
 			{
 				await BufferAllAsync().AsTask().ConfigureAwait(false);
 
-				using (var randomAccessStream = new InMemoryRandomAccessStream())
-				using (var writer = new DataWriter(randomAccessStream))
+				var randomAccessStream = new InMemoryRandomAccessStream();
+				try
 				{
-					writer.WriteBuffer(bufferedData);
+					using (var writer = new DataWriter(randomAccessStream))
+					{
+						writer.WriteBuffer(bufferedData);
 
-					uint bytesStored = await writer.StoreAsync().AsTask(cancellationToken);
+						uint bytesStored = await writer.StoreAsync().AsTask(cancellationToken);
 
-					// Make sure that the DataWriter destructor does not close the stream.
-					writer.DetachStream();
+						// Make sure that the DataWriter destructor does not close the stream.
+						writer.DetachStream();
 
-					// Report progress.
-					progress.Report(randomAccessStream.Size);
+						// Report progress.
+						progress.Report(randomAccessStream.Size);
 
-					return randomAccessStream.GetInputStreamAt(0);
+						return randomAccessStream.GetInputStreamAt(0);
+					}
+				}
+				catch
+				{
+					randomAccessStream?.Dispose();
+					throw;
 				}
 			});
 		}
@@ -171,12 +181,13 @@ namespace Yort.Http.ClientPipeline
 		}
 
 		/// <summary>
-		/// If the data has been buffered, returns the length of the compressed content and true. Otherwise returns 0 for the length and false.
+		/// Returns the length of the compressed content.
 		/// </summary>
 		/// <param name="length">An integer to provde the length in.</param>
-		/// <returns>The value 0.</returns>
+		/// <returns>The length of the compressed content.</returns>
 		public bool TryComputeLength(out ulong length)
 		{
+			BufferAllAsync().AsTask().Wait();
 			if (bufferedData != null)
 			{
 				length = bufferedData.Length;
@@ -198,22 +209,20 @@ namespace Yort.Http.ClientPipeline
 			{
 				using (DataWriter writer = new DataWriter(outputStream))
 				{
-					if (bufferedData != null)
-						writer.WriteBuffer(bufferedData);
-					else
-					{
-						await WriteCompressedContentToStream(outputStream.AsStreamForWrite()).ConfigureAwait(false);
-					}
+					if (bufferedData == null)
+						await BufferAllAsync().AsTask().ConfigureAwait(false);
 
-					uint bytesWritten = await writer.StoreAsync().AsTask(cancellationToken);
+					headers.ContentLength = bufferedData.Length;
 
+					writer.WriteBuffer(bufferedData);
+					await writer.StoreAsync().AsTask().ConfigureAwait(false);
 					// Make sure that DataWriter destructor does not close the stream.
 					writer.DetachStream();
 
 					// Report progress.
-					progress.Report(bytesWritten);
+					progress.Report(bufferedData.Length);
 
-					return bytesWritten;
+					return bufferedData.Length;
 				}
 			});
 		}
@@ -251,34 +260,29 @@ namespace Yort.Http.ClientPipeline
 			}
 		}
 
-		private async Task<Stream> WriteCompressedContentToStream(Stream outputStream)
+		private async Task WriteCompressedContentToStream(Stream outputStream)
 		{
 			Stream compressedStream = null;
 
 			if (String.Compare(encodingType, "gzip", true) == 0)
-			{
 				compressedStream = new GZipStream(outputStream, CompressionMode.Compress, leaveOpen: true);
-			}
 			else if (String.Compare(encodingType, "deflate", true) == 0)
-			{
 				compressedStream = new DeflateStream(outputStream, CompressionMode.Compress, leaveOpen: true);
-			}
 
 			using (var stream = await originalContent.ReadAsInputStreamAsync().AsTask().ConfigureAwait(false))
 			{
 				using (var sourceStream = stream.AsStreamForRead())
 				{
-					sourceStream.CopyTo(compressedStream);
-					await compressedStream.FlushAsync().ConfigureAwait(false);
-
-					if (compressedStream != null)
+					try
 					{
-						compressedStream.Dispose();
+						sourceStream.CopyTo(compressedStream);
+					}
+					finally
+					{
+						compressedStream?.Dispose();
 					}
 				}
 			}
-
-			return compressedStream;
 		}
 
 	}

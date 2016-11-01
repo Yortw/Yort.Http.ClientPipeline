@@ -85,6 +85,7 @@ namespace Yort.Http.ClientPipeline
 				originalContent.CopyHeadersTo(compressedContent);
 				compressedContent.Headers.ContentEncoding.Clear();
 				compressedContent.Headers.ContentEncoding.Add(new Windows.Web.Http.Headers.HttpContentCodingHeaderValue("gzip"));
+				compressedContent.Headers.ContentLength = (ulong)ms.Length;
 
 				originalContent.Dispose();
 				

@@ -18,6 +18,8 @@ namespace Yort.Http.ClientPipeline
 		private HttpContent originalContent;
 		private string encodingType;
 
+		private byte[] compressedData;
+
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
@@ -52,16 +54,20 @@ namespace Yort.Http.ClientPipeline
 			}
 
 			this.Headers.ContentEncoding.Add(encodingType);
+			this.Headers.ContentLength = null;
 		}
 
 		/// <summary>
-		/// Returns -1 as the length of the compressed content is unknown until compressed.
+		/// Returns the length of the compressed data.
 		/// </summary>
 		/// <param name="length">An integer to provde the length in.</param>
-		/// <returns>The value -1.</returns>
+		/// <returns>The length of the compressed data.</returns>
 		protected override bool TryComputeLength(out long length)
 		{
-			length = -1;
+			if (compressedData == null)
+				CompressDataAsync().Wait();
+
+			length = compressedData.Length;
 
 			return false;
 		}
@@ -72,26 +78,32 @@ namespace Yort.Http.ClientPipeline
 		/// <param name="stream">A stream containing the content to be compressed.</param>
 		/// <param name="context">A <see cref="System.Net.TransportContext"/> assoicated with the request using the content.</param>
 		/// <returns></returns>
-		protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+		protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
 		{
-			Stream compressedStream = null;
+			if (compressedData == null)
+				await CompressDataAsync().ConfigureAwait(false);
 
-			if (String.Compare(encodingType, "gzip", true) == 0)
+			await stream.WriteAsync(compressedData, 0, compressedData.Length).ConfigureAwait(false);
+		}
+		
+		private async Task CompressDataAsync()
+		{
+			using (var stream = new System.IO.MemoryStream())
 			{
-				compressedStream = new GZipStream(stream, CompressionMode.Compress, leaveOpen: true);
-			}
-			else if (String.Compare(encodingType, "deflate", true) == 0)
-			{
-				compressedStream = new DeflateStream(stream, CompressionMode.Compress, leaveOpen: true);
-			}
+				Stream compressedStream = null;
 
-			return originalContent.CopyToAsync(compressedStream).ContinueWith(tsk =>
-			{
-				if (compressedStream != null)
+				if (String.Compare(encodingType, "gzip", true) == 0)
+					compressedStream = new GZipStream(stream, CompressionMode.Compress, leaveOpen: true);
+				else if (String.Compare(encodingType, "deflate", true) == 0)
+					compressedStream = new DeflateStream(stream, CompressionMode.Compress, leaveOpen: true);
+
+				await originalContent.CopyToAsync(compressedStream).ContinueWith(tsk =>
 				{
-					compressedStream.Dispose();
-				}
-			});
+					compressedStream?.Dispose();
+				});
+
+				compressedData = stream.ToArray();
+			}
 		}
 	}
 }
