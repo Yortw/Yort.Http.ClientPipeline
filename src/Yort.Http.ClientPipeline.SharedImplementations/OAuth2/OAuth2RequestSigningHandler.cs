@@ -204,13 +204,16 @@ namespace Yort.Http.ClientPipeline.OAuth2
 		{
 			using (var creds = await _Settings.ClientCredentialProvider.GetCredentials().ConfigureAwait(false))
 			{
-				var content = new System.Net.Http.MultipartFormDataContent();
-				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.RefreshToken), "grant_type");
-				content.Add(new System.Net.Http.StringContent(token.RefreshToken), "refresh_token");
-				content.Add(new System.Net.Http.StringContent(_Settings.Scope), "scope");
+				var values = new Dictionary<string, string>(4);
+				values.Add("grant_type", OAuth2GrantTypes.RefreshToken);
+				values.Add("refresh_token", token.RefreshToken);
+				values.Add("scope", _Settings.Scope);
+
 				var state = _Settings?.State?.Invoke(request);
 				if (state != null)
-					content.Add(new System.Net.Http.StringContent(state), "state");
+					values.Add("state", state);
+
+				var content = new System.Net.Http.FormUrlEncodedContent(values);
 
 				var tokenResult = await client.PostAsync(_Settings.AccessTokenUrl, content).ConfigureAwait(false);
 
@@ -230,7 +233,6 @@ namespace Yort.Http.ClientPipeline.OAuth2
 				}
 			}
 		}
-
 		private async Task<OAuth2Token> RequestToken_AuthorizationCodeGrant(HttpClient client, HttpRequestMessage request)
 		{
 			using (var creds = await _Settings.ClientCredentialProvider.GetCredentials().ConfigureAwait(false))
@@ -249,15 +251,17 @@ namespace Yort.Http.ClientPipeline.OAuth2
 				if (authCodeResult.State != state)
 					throw new UnauthorizedAccessException("Unexpected 'state' value returned from authentication url.");
 
-				var content = new System.Net.Http.MultipartFormDataContent();
-				content.Add(new System.Net.Http.StringContent(OAuth2GrantTypes.AuthorizationCode), "grant_type");
-				content.Add(new System.Net.Http.StringContent(creds.Identifier), "client_id");
-				content.Add(new System.Net.Http.StringContent(creds.Secret), "client_secret");
-				content.Add(new System.Net.Http.StringContent(_Settings.RedirectUrl.ToString()), "redirect_uri");
-				content.Add(new System.Net.Http.StringContent(_Settings.Scope), "scope");
-				content.Add(new System.Net.Http.StringContent(authCodeResult.AuthorisationCode), "code");
+				var values = new Dictionary<string, string>(7);
+				values.Add("grant_type", OAuth2GrantTypes.AuthorizationCode);
+				values.Add("client_id", creds.Identifier);
+				values.Add("client_secret", creds.Secret);
+				values.Add("redirect_uri", _Settings.RedirectUrl.ToString());
+				values.Add("scope", _Settings.Scope);
+				values.Add("code", authCodeResult.AuthorisationCode);
 				if (!String.IsNullOrEmpty(authCodeResult.State))
-					content.Add(new System.Net.Http.StringContent(authCodeResult.AuthorisationCode), "state");
+					values.Add("state", authCodeResult.AuthorisationCode);
+
+				var content = new System.Net.Http.FormUrlEncodedContent(values);
 
 				var tokenResult = await client.PostAsync(_Settings.AccessTokenUrl, content).ConfigureAwait(false);
 				return await ProcessTokenResponse(tokenResult).ConfigureAwait(false);

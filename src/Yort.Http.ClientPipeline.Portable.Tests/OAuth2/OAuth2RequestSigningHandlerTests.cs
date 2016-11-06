@@ -209,21 +209,29 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 			tokenIssuingHandler.CanHandleRequest = (request) => { return request.Method.Method == "POST" && request.RequestUri.ToString() == "http://testsite.com/Token"; };
 			tokenIssuingHandler.HandleRequest = async (request) =>
 			{
-				var content = request.Content as System.Net.Http.MultipartFormDataContent;
+				var content = request.Content as System.Net.Http.FormUrlEncodedContent;
 				if (content == null) return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
-				var grantTypeContent = (from c in content where c.Headers.ContentDisposition.Name == "grant_type" select c).FirstOrDefault();
-				if (grantTypeContent == null)
-					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+				var contentParams = new Dictionary<string, string>();
+				var contentStr = await content.ReadAsStringAsync().ConfigureAwait(false);
+				foreach (var kvp in contentStr.Split(new char[] { '&' }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					var parts = kvp.Split(new char[] { '=' });
+					var key = Uri.UnescapeDataString(parts[0]);
+					string value = null;
+					if (parts.Length > 1)
+						value = Uri.UnescapeDataString(parts[1]);
 
-				var grantType = await grantTypeContent.ReadAsStringAsync().ConfigureAwait(false);
+					contentParams.Add(key, value);
+				}
+
+				var grantType = (from c in contentParams where c.Key == "grant_type" select c.Value).FirstOrDefault();
+
 				if (grantType == OAuth2.OAuth2GrantTypes.AuthorizationCode)
 				{
-					var codeContent = (from c in content where c.Headers.ContentDisposition.Name == "code" select c).FirstOrDefault();
-					if (codeContent == null)
-						return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+					var code = (from c in contentParams where c.Key == "code" select c.Value).FirstOrDefault();
 
-					if (await codeContent.ReadAsStringAsync() != "28770506516186843330")
+					if (code != "28770506516186843330")
 						return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
 					return new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new System.Net.Http.StringContent("{ token_type: \"Bearer\", access_token: \"123\", expires_in: \"3600\", refresh_token: \"456\" }", System.Text.UTF8Encoding.UTF8, MediaTypes.ApplicationJson) };
