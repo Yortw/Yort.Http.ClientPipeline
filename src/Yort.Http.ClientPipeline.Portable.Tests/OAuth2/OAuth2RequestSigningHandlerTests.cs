@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Yort.Http.ClientPipeline;
@@ -36,7 +37,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 
 		#endregion
 
-#if RunTestsWithExternalDependencies
+#if RunTestsWithExternalDependenciesc
 		[TestMethod]
 		[TestCategory("MessageHandlers")]
 		[TestCategory(nameof(OAuth2RequestSigningHandler))]

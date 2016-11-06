@@ -121,14 +121,14 @@ namespace Yort.Http.ClientPipeline.OAuth2
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AccessTokenUrl")]
 		public void Validate()
 		{
-			if (this.AuthorizeUrl == null) throw new InvalidOperationException(nameof(AuthorizeUrl) + " cannot be null.");
 			if (this.AccessTokenUrl == null) throw new InvalidOperationException(nameof(AccessTokenUrl) + " cannot be null.");
-			if (this.RedirectUrl == null) throw new InvalidOperationException(nameof(RedirectUrl) + " cannot be null.");
 			if (this.ClientCredentialProvider == null) throw new InvalidOperationException("A " + nameof(ClientCredentialProvider) + " is required for the client id and secret.");
 
 			switch (this.GrantType)
 			{
 				case OAuth2GrantTypes.AuthorizationCode:
+					if (this.AuthorizeUrl == null) throw new InvalidOperationException(nameof(AuthorizeUrl) + " cannot be null.");
+					if (this.RedirectUrl == null) throw new InvalidOperationException(nameof(RedirectUrl) + " cannot be null.");
 					if (this.RequestAuthentication == null) throw new InvalidOperationException(nameof(RequestAuthentication) + " callback cannot be null for the AuthorizationCode grant type.");
 					break;
 				case OAuth2GrantTypes.ClientCredentials:

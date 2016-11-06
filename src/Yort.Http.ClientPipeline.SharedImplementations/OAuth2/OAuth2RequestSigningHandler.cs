@@ -266,8 +266,9 @@ namespace Yort.Http.ClientPipeline.OAuth2
 
 		private async Task<OAuth2Token> RequestToken_ClientCredentialsGrant(HttpClient client)
 		{
-			var content = new MultipartFormDataContent();
-			content.Add(new StringContent(OAuth2GrantTypes.ClientCredentials, System.Text.UTF8Encoding.UTF8), "grant_type");
+			var values = new Dictionary<string, string>(1);
+			values.Add("grant_type", OAuth2GrantTypes.ClientCredentials);
+			var content = new FormUrlEncodedContent(values);
 
 			var tokenRequestMessage = new HttpRequestMessage(HttpMethod.Post, _Settings.AccessTokenUrl)
 			{
