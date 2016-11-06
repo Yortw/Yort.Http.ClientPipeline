@@ -37,7 +37,7 @@ namespace Yort.Http.ClientPipeline.Portable.Tests
 
 		#endregion
 
-#if RunTestsWithExternalDependenciesc
+#if RunTestsWithExternalDependencies
 		[TestMethod]
 		[TestCategory("MessageHandlers")]
 		[TestCategory(nameof(OAuth2RequestSigningHandler))]
