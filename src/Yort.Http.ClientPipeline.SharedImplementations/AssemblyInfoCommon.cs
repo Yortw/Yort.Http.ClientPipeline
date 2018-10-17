@@ -1,4 +1,4 @@
-﻿using System.Resources;
+using System.Resources;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -14,7 +14,7 @@ using System;
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
 [assembly: AssemblyProduct("Yort.Http.ClientPipeline")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: CLSCompliant(false)]
 
 // Version information for an assembly consists of the following four values:
@@ -27,5 +27,5 @@ using System;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.5")]
-[assembly: AssemblyInformationalVersionAttribute("1.0.0.5")]
+[assembly: AssemblyVersion("1.0.0.8")]
+[assembly: AssemblyInformationalVersionAttribute("1.0.0.8")]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -163,18 +163,12 @@ namespace Yort.Http.ClientPipeline
 		private static async Task<HttpRequestMessage> CloneRequest(HttpRequestMessage request)
 		{
 			var retVal = new HttpRequestMessage(request.Method, request.RequestUri);
-			foreach (var header in request.Headers)
-			{
-				retVal.Headers.Add(header.Key, header.Value);
-			}
+			CopyHeaders(request.Headers, retVal.Headers);
 
 			if (request.Content != null)
 			{
 				var content = new ByteArrayContent(await request.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
-				foreach (var header in request.Content.Headers)
-				{
-					content.Headers.Add(header.Key, header.Value);
-				}
+				CopyHeaders(request.Content.Headers, content.Headers);
 				retVal.Content = content;
 			}
 
